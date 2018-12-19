@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index",
+    "dev": "nodemon -w index.js index",
     "start": "node index"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^4.17.11",
     "nodemon": "^1.18.9"
   }
 }

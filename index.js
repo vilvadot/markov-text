@@ -1,9 +1,10 @@
 const fs = require("fs");
 const path = require("path");
+const {uniq} = require("lodash");
 
 const cyclonePath = "./train/cyclone.txt";
 const wordsPath = "./train/words.txt";
-const trainingPath = wordsPath;
+const trainingPath = cyclonePath;
 
 const trainingText = fs.readFileSync(path.resolve(trainingPath), "utf-8");
 
@@ -13,7 +14,6 @@ class NgramGenerator {
     this.words = [];
     this._splitCorpusIntoWords();
     this._normalizeWords();
-    console.log(this.words);
   }
 
   _splitCorpusIntoWords() {
@@ -24,19 +24,38 @@ class NgramGenerator {
     this.words = this.words.map(word => word.toLowerCase());
   }
 
-  getNgrams(order) {
+  _cleanNGrams(nGrams) {
+    const nGramsWithOnlyLetters = nGrams.filter(nGram => {
+      const regExpOnlyLetters = /^[a-zA-Z]+$/g;
+      return regExpOnlyLetters.test(nGram);
+    });
+    return uniq(nGramsWithOnlyLetters);
+  }
+
+  generateFile(order) {
+    const nGrams = this.getNgrams(order)
+    console.time("generate nGrams");
+    fs.writeFileSync(
+      path.resolve("./ngrams.json"),
+      JSON.stringify(nGrams)
+    );
+    console.timeEnd("generate nGrams");
+    console.log(`NGrams = ${nGrams.length}`)
+  }
+
+  getNgrams(order = 3) {
     const nGrams = [];
     for (let word of this.words) {
       for (let i = 0; i < word.length; i++) {
         const currentSlice = word.slice(i, i + 3);
-        if(currentSlice.length < order) break
+        if (currentSlice.length < order) break;
         nGrams.push(currentSlice);
       }
     }
-    return nGrams;
+    return this._cleanNGrams(nGrams);
   }
 }
 
 const ngrams = new NgramGenerator(trainingText);
-
-console.log(ngrams.getNgrams(3));
+ngrams.generateFile();
+// console.log(ngrams.getNgrams(3));
