@@ -1,14 +1,10 @@
+const {uniq} = require("lodash");
 const fs = require("fs");
 const path = require("path");
-const {uniq} = require("lodash");
 
-const cyclonePath = "./train/cyclone.txt";
-const wordsPath = "./train/words.txt";
-const trainingPath = cyclonePath;
+const outputFile = "../ngrams.json"
 
-const trainingText = fs.readFileSync(path.resolve(trainingPath), "utf-8");
-
-class NgramGenerator {
+class NGramGenerator {
   constructor(corpus) {
     this.corpus = corpus;
     this.words = [];
@@ -36,7 +32,7 @@ class NgramGenerator {
     const nGrams = this.getNgrams(order)
     console.time("generate nGrams");
     fs.writeFileSync(
-      path.resolve("./ngrams.json"),
+      path.resolve(__dirname, outputFile),
       JSON.stringify(nGrams)
     );
     console.timeEnd("generate nGrams");
@@ -56,6 +52,4 @@ class NgramGenerator {
   }
 }
 
-const ngrams = new NgramGenerator(trainingText);
-ngrams.generateFile();
-// console.log(ngrams.getNgrams(3));
+module.exports = NGramGenerator
