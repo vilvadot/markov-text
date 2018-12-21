@@ -21,7 +21,6 @@ class Markov {
       this.word.length
     );
 
-    console.log(chalk.blue(`..${currentSyllabe}-`));
     return currentSyllabe;
   }
 
@@ -38,13 +37,12 @@ class Markov {
   }
 
   _getNextSyllabe() {
-    console.log(chalk.red(this.word));
-    const currentSyllabe = this._getCurrentSyllabe();
-    const Ngram = this._getMatchingNgram(currentSyllabe);
+    console.log(chalk.red(this.word))
+    const currentSyllabe = this._getCurrentSyllabe()
+    const ngram = this._getMatchingNgram(currentSyllabe)
+    const pieceToMerge = ngram.slice(2)
 
-    const lastLettersFromNGram = Ngram ? Ngram.slice(2) : "";
-
-    return lastLettersFromNGram;
+    return ngram ? pieceToMerge : ''
   }
 
   _addNextSyllabe() {
