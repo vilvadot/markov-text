@@ -27,16 +27,14 @@ class Markov {
   }
 
   _getMatchingNgram(startLetters) {
-    const startOfWordRegexp = new RegExp(`^${startLetters}`);
-
     const matchingNgrams = this.ngrams.filter(ngram =>
-      startOfWordRegexp.test(ngram)
+      ngram.startsWith(startLetters)
     );
     const randomId = random(matchingNgrams.length - 1);
     const randomNgram = matchingNgrams[randomId];
 
-    // console.log(chalk.green(matchingNgrams));
     console.log(`${chalk.green(matchingNgrams)}  ➠  ${chalk.bgWhite.black(randomNgram)}`);
+
     return randomNgram
   }
 
