@@ -4,15 +4,14 @@ const chalk = require("chalk");
 const overlap = 2;
 
 class Markov {
-  constructor(ngrams, desiredLength = 10) {
+  constructor(ngrams) {
     this.ngrams = ngrams;
     this.word = "";
-    this.desiredLength = desiredLength;
     this._setRandomFirst();
   }
 
   _setRandomFirst() {
-    const randomId = Math.floor(Math.random() * this.ngrams.length);
+    const randomId = random(this.ngrams.length - 1);
     this.word = this.ngrams[randomId];
   }
 
@@ -48,20 +47,14 @@ class Markov {
     return lastLettersFromNGram;
   }
 
-  _mergeNGram(nextSyllabe) {
-    this.word = this.word + nextSyllabe;
+  _addNextSyllabe() {
+    this.word = this.word + this._getNextSyllabe();
   }
 
-  _addPiece(pieceNumber) {
-    console.log(`______________________________${pieceNumber}______________________________`);
-    const selectedMatcher = this._getNextSyllabe();
-    this._mergeNGram(selectedMatcher);
-    console.log("\n");
-  }
-
-  getWord() {
-    for (let i = 0; i <= this.desiredLength; i++) {
-      this._addPiece(i);
+  getWord(desiredLength = 5) {
+    for (let i = 0; i <= desiredLength; i++) {
+      this._addNextSyllabe();
+      console.log(`${i}_______________`)
     }
     return this.word;
   }
