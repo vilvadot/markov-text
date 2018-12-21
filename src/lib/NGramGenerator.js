@@ -43,7 +43,7 @@ class NGramGenerator {
     const nGrams = [];
     for (let word of this.words) {
       for (let i = 0; i < word.length; i++) {
-        const currentSlice = word.slice(i, i + 3);
+        const currentSlice = word.slice(i, i + order);
         if (currentSlice.length < order) break;
         nGrams.push(currentSlice);
       }
