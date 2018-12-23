@@ -1,8 +1,6 @@
 const { random } = require("lodash");
 const chalk = require("chalk");
 
-const overlap = 2;
-
 class Markov {
   constructor(ngrams) {
     this.ngrams = ngrams;
@@ -16,6 +14,8 @@ class Markov {
   }
 
   _getCurrentSyllabe() {
+    const overlap = 2;
+
     const currentSyllabe = this.word.slice(
       this.word.length - overlap,
       this.word.length
@@ -31,18 +31,20 @@ class Markov {
     const randomId = random(matchingNgrams.length - 1);
     const randomNgram = matchingNgrams[randomId];
 
-    console.log(`${chalk.green(matchingNgrams)}  ➠  ${chalk.bgWhite.black(randomNgram)}`);
+    console.log(
+      `${chalk.green(matchingNgrams)}  ➠  ${chalk.bgWhite.black(randomNgram)}`
+    );
 
-    return randomNgram
+    return randomNgram;
   }
 
   _getNextSyllabe() {
-    console.log(chalk.red(this.word))
-    const currentSyllabe = this._getCurrentSyllabe()
-    const ngram = this._getMatchingNgram(currentSyllabe)
-    const pieceToMerge = ngram.slice(2)
+    console.log(chalk.red(this.word));
+    const currentSyllabe = this._getCurrentSyllabe();
+    const ngram = this._getMatchingNgram(currentSyllabe);
+    const pieceToMerge = ngram.slice(2);
 
-    return ngram ? pieceToMerge : ''
+    return ngram ? pieceToMerge : "";
   }
 
   _addNextSyllabe() {
@@ -52,7 +54,7 @@ class Markov {
   getWord(desiredLength = 5) {
     for (let i = 0; i <= desiredLength; i++) {
       this._addNextSyllabe();
-      console.log(`${i}_______________`)
+      console.log(chalk.grey(`${i}_______________`));
     }
     return this.word;
   }
