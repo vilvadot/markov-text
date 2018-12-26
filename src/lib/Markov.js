@@ -1,4 +1,4 @@
-const { random } = require("lodash");
+const { random, pick } = require("lodash");
 const chalk = require("chalk");
 const WeightedList = require('./WeightedList');
 
@@ -25,9 +25,12 @@ class Markov {
     Object.keys(this.ngrams)
     .filter((ngram) => ngram.startsWith(startLetters))
 
-    console.log(matchingNgrams)
-    // const ngramsList = new WeightedList()
-    return '';
+    const nGramMap = pick(this.ngrams, matchingNgrams)
+    console.log(nGramMap)
+    const list = new WeightedList(nGramMap)
+    const ngram = list.getItem()
+    console.log({ngram})
+    return ngram;
   }
 
   _addNext() {

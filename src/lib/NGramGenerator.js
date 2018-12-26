@@ -1,6 +1,6 @@
-const {uniq} = require("lodash");
 const fs = require("fs");
 const path = require("path");
+const {yellow, green} = require("chalk");
 
 const defaultOutput = "../ngrams.json"
 
@@ -34,6 +34,7 @@ class NGramGenerator {
   }
 
   _calcWeights() {
+    console.log(yellow('Calculating weights, this may take a while...'))
     for (let ngram of this.nGrams) {
       if (Object.keys(this.weights).includes(ngram)) {
         this.weights[ngram]++;
@@ -48,13 +49,19 @@ class NGramGenerator {
   }
 
   saveToFile(filePath = defaultOutput) {
+    const outputPath = path.resolve(__dirname, filePath)
     fs.writeFileSync(
-      path.resolve(__dirname, filePath),
+      outputPath,
       JSON.stringify(this.weights)
-    );
+      );
+    console.timeEnd('NGrams generated in: ')
+    console.log(green(`ngrams saved to: ${outputPath} 👍🏻`))
+    return this.weights
   }
 
   _generateNgrams() {
+    console.log(yellow('Generating nGrams...'))
+    console.time('NGrams generated in: ')
     const nGrams = [];
     for (let word of this.words) {
       for (let i = 0; i < word.length; i++) {
@@ -63,9 +70,10 @@ class NGramGenerator {
         nGrams.push(currentSlice);
       }
     }
+    console.log(green('Raw ngrams:'), nGrams.length)
     this.nGrams = this._cleanNGrams(nGrams);
+    console.log(green('Clean ngrams:'), this.nGrams.length)
   }
-  
 }
 
 module.exports = NGramGenerator

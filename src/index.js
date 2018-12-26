@@ -4,13 +4,23 @@ const NGramGenerator = require("./lib/NGramGenerator");
 const Markov = require("./lib/Markov");
 const WeightedList = require("./lib/WeightedList");
 
-const trainingPath = "./train/short.txt";
+const trainingPath = "./train/training.txt";
+const ngramsPath = "./ngrams.json";
 
 const trainingText = fs.readFileSync(path.resolve(__dirname, trainingPath), "utf-8");
 
+// 
 
-const ngrams = new NGramGenerator(trainingText, 3).getNgrams()
-const markov = new Markov(ngrams)
+try{
+  const calculatedNgrams = fs.readFileSync(path.resolve(__dirname, ngramsPath), "utf-8");
+}catch(err){
+  const ngrams = new NGramGenerator(trainingText, 3).saveToFile()
+}
+// if(calculatedNgrams){
 
-console.log(markov.generateWord())
-// console.log(markov._getWeightedNgram());
+// }
+
+// const markov = new Markov(ngrams)
+
+// console.log(markov.generateWord())
+// // console.log(markov._getWeightedNgram());
