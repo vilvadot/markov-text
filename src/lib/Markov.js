@@ -1,62 +1,57 @@
 const { random } = require("lodash");
 const chalk = require("chalk");
+const WeightedList = require('./WeightedList');
 
 class Markov {
   constructor(ngrams) {
     this.ngrams = ngrams;
+    this.order = Object.keys(this.ngrams)[0].length
     this.word = "";
-    this._setRandomFirst();
+    this._setFirstFragment();
   }
 
-  _setRandomFirst() {
-    const randomId = random(this.ngrams.length - 1);
-    this.word = this.ngrams[randomId];
-  }
-
-  _getCurrentSyllabe() {
-    const overlap = 2;
-
-    const currentSyllabe = this.word.slice(
-      this.word.length - overlap,
-      this.word.length
-    );
-
-    return currentSyllabe;
-  }
-
-  _getMatchingNgram(startLetters) {
-    const matchingNgrams = this.ngrams.filter(ngram =>
-      ngram.startsWith(startLetters)
-    );
-    const randomId = random(matchingNgrams.length - 1);
-    const randomNgram = matchingNgrams[randomId];
-
-    console.log(
-      `${chalk.green(matchingNgrams)}  ➠  ${chalk.bgWhite.black(randomNgram)}`
-    );
-
-    return randomNgram;
-  }
-
-  _getNextSyllabe() {
-    console.log(chalk.red(this.word));
-    const currentSyllabe = this._getCurrentSyllabe();
-    const ngram = this._getMatchingNgram(currentSyllabe);
-    const pieceToMerge = ngram.slice(2);
-
-    return ngram ? pieceToMerge : "";
-  }
-
-  _addNextSyllabe() {
-    this.word = this.word + this._getNextSyllabe();
-  }
-
-  getWord(desiredLength = 5) {
+  generateWord(desiredLength = 5) {
     for (let i = 0; i <= desiredLength; i++) {
-      this._addNextSyllabe();
+      this._addNext();
       console.log(chalk.grey(`${i}_______________`));
     }
     return this.word;
+  }
+
+
+  _getNextFragment(startLetters) {
+    console.log({startLetters})
+    const matchingNgrams = 
+    Object.keys(this.ngrams)
+    .filter((ngram) => ngram.startsWith(startLetters))
+
+    console.log(matchingNgrams)
+    // const ngramsList = new WeightedList()
+    return '';
+  }
+
+  _addNext() {
+    console.log(chalk.red(this.word));
+
+    // Gets last letters of word
+    const currentSyllabe = this.word.slice(
+      this.word.length - this.order + 1,
+      this.word.length
+    );
+    // Chooses ngram matching that start 
+    const ngram = this._getNextFragment(currentSyllabe)
+
+    // If no matching ngram next piece is blank
+    const nextPiece = ngram ? ngram.slice(2) : "";
+    
+    // Merges pieces together
+    this.word = this.word + nextPiece;
+  }
+
+  _setFirstFragment() {
+    const ngrams = Object.keys(this.ngrams)
+    const randomId = random(ngrams.length - 1);
+    this.word = ngrams[randomId];
   }
 }
 

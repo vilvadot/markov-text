@@ -10,6 +10,7 @@ const trainingText = fs.readFileSync(path.resolve(__dirname, trainingPath), "utf
 
 
 const ngrams = new NGramGenerator(trainingText, 3).getNgrams()
+const markov = new Markov(ngrams)
 
-const markov = new Markov(ngrams, 5)
+console.log(markov.generateWord())
 // console.log(markov._getWeightedNgram());

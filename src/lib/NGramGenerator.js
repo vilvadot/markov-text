@@ -41,7 +41,6 @@ class NGramGenerator {
         this.weights[ngram] = 1;
       }
     }
-    console.log(this.weights)
   }
 
   getNgrams(){
