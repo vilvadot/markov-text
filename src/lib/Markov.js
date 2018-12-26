@@ -7,34 +7,49 @@ class Markov {
     this.ngrams = ngrams;
     this.order = Object.keys(this.ngrams)[0].length
     this.word = "";
-    this._setFirstFragment();
+    this.debugging = false;
+  }
+
+  setDebugging(mode = true){
+    this.debugging = mode
   }
 
   generateWord(desiredLength = 5) {
-    for (let i = 0; i <= desiredLength; i++) {
+    let wordLength = desiredLength
+    if(Array.isArray(desiredLength)){
+      wordLength = random(desiredLength[0], desiredLength[1])
+    }
+    this._setFirstFragment();
+    for (let i = this.word.length; i < wordLength; i++) {
       this._addNext();
-      console.log(chalk.grey(`${i}_______________`));
+      this._debug(chalk.grey(`${i}_______________`));
     }
     return this.word;
   }
 
 
   _getNextFragment(startLetters) {
-    console.log({startLetters})
+    this._debug({startLetters})
     const matchingNgrams = 
     Object.keys(this.ngrams)
     .filter((ngram) => ngram.startsWith(startLetters))
 
     const nGramMap = pick(this.ngrams, matchingNgrams)
-    console.log(nGramMap)
+    this._debug(nGramMap)
     const list = new WeightedList(nGramMap)
     const ngram = list.getItem()
-    console.log({ngram})
+    this._debug({ngram})
     return ngram;
   }
 
+  _debug(contents){
+    if(this.debugging){
+      console.log(contents)
+    }
+  }
+
   _addNext() {
-    console.log(chalk.red(this.word));
+    this._debug(chalk.red(this.word));
 
     // Gets last letters of word
     const currentSyllabe = this.word.slice(
