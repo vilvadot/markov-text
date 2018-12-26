@@ -1,5 +1,5 @@
 class WeightedList {
-  constructor(weightMap) {
+  constructor(weightMap = {}) {
     // {value: weight}
     this.setWeights()
     this.count = Object.keys(weightMap).length
