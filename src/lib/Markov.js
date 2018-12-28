@@ -1,54 +1,66 @@
 const { random, pick } = require("lodash");
 const chalk = require("chalk");
-const WeightedList = require('./WeightedList');
+const WeightedList = require("./WeightedList");
 
 class Markov {
   constructor(ngrams) {
     this.ngrams = ngrams;
-    this.order = Object.keys(this.ngrams)[0].length
+    this.order = Object.keys(this.ngrams)[0].length;
     this.word = "";
-    this.debugging = false;
+    this.wordLength = 0;
+    this.isDebugMode = false;
   }
 
-  setDebugging(mode = true){
-    this.debugging = mode
+  setDebugging(mode = true) {
+    this.isDebugMode = mode;
   }
 
   generateWord(desiredLength = 5) {
-    let wordLength = desiredLength
-    if(Array.isArray(desiredLength)){
-      wordLength = random(desiredLength[0], desiredLength[1])
-    }
+    this._setWordLength(desiredLength);
     this._setFirstFragment();
-    for (let i = this.word.length; i < wordLength; i++) {
-      this._addNext();
+    for (let i = this.word.length; i < this.wordLength; i++) {
+      this._addNextFragment();
       this._debug(chalk.grey(`${i}_______________`));
     }
     return this.word;
   }
 
-
-  _getNextFragment(startLetters) {
-    this._debug({startLetters})
-    const matchingNgrams = 
-    Object.keys(this.ngrams)
-    .filter((ngram) => ngram.startsWith(startLetters))
-
-    const nGramMap = pick(this.ngrams, matchingNgrams)
-    this._debug(nGramMap)
-    const list = new WeightedList(nGramMap)
-    const ngram = list.getItem()
-    this._debug({ngram})
-    return ngram;
+  _setWordLength(desiredLength) {
+    // desiredLength can be aa single Integer or Array[minlen, maxlen]
+    let wordLength = desiredLength;
+    const lengthIsAnArray = Array.isArray(desiredLength);
+    if (lengthIsAnArray) {
+      wordLength = random(desiredLength[0], desiredLength[1]);
+    }
+    this.wordLength = wordLength;
   }
 
-  _debug(contents){
-    if(this.debugging){
-      console.log(contents)
+  _getNextFragmentFromCurrent(startLetters) {
+    this._debug({ startLetters });
+
+    const matchingNgrams = Object.keys(this.ngrams).filter(ngram =>
+      ngram.startsWith(startLetters)
+    );
+
+    const mapWithMatchingNgrams = pick(this.ngrams, matchingNgrams);
+
+    this._debug(mapWithMatchingNgrams);
+
+    const ngramList = new WeightedList(mapWithMatchingNgrams);
+    const nextFragment = ngramList.getItem();
+
+    this._debug({ nextFragment });
+    
+    return nextFragment;
+  }
+
+  _debug(contents) {
+    if (this.isDebugMode) {
+      console.log(contents);
     }
   }
 
-  _addNext() {
+  _addNextFragment() {
     this._debug(chalk.red(this.word));
 
     // Gets last letters of word
@@ -56,20 +68,19 @@ class Markov {
       this.word.length - this.order + 1,
       this.word.length
     );
-    // Chooses ngram matching that start 
-    const ngram = this._getNextFragment(currentSyllabe)
+    // Chooses ngram matching that start
+    const next = this._getNextFragmentFromCurrent(currentSyllabe);
 
     // If no matching ngram next piece is blank
-    const nextPiece = ngram ? ngram.slice(2) : "";
-    
+    const nextFragment = next ? next.slice(2) : "";
+
     // Merges pieces together
-    this.word = this.word + nextPiece;
+    this.word = this.word + nextFragment;
   }
 
   _setFirstFragment() {
-    const ngrams = Object.keys(this.ngrams)
+    const ngrams = Object.keys(this.ngrams);
     const randomId = random(ngrams.length - 1);
-    // this.word = ngrams[randomId];
     this.word = ngrams[randomId];
   }
 }

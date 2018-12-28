@@ -1,6 +1,6 @@
 const {yellow, green} = require("chalk");
 
-class NGramGenerator {
+class NgramGenerator {
   constructor(corpus, order = 3) {
     this.corpus = corpus;
     this.order = order;
@@ -18,12 +18,12 @@ class NGramGenerator {
     return words.map(word => word.toLowerCase());
   }
 
-  _cleanNGrams(nGrams) {
-    const nGramsWithOnlyLetters = nGrams.filter(nGram => {
+  _removeUnwantedNgrams(ngrams) {
+    const ngramsWithOnlyLetters = ngrams.filter(nGram => {
       const regExpOnlyLetters = /^[a-zA-Z]+$/g;
       return regExpOnlyLetters.test(nGram);
     });
-    return nGramsWithOnlyLetters
+    return ngramsWithOnlyLetters
   }
 
   _calcWeights(ngrams) {
@@ -38,18 +38,19 @@ class NGramGenerator {
   }
 
   _generateNgrams(words){
+    // TODO: Where to put logging? in this method or in _generateWeightedNgrams?
     console.log(yellow('Generating nGrams...'))
     console.time('NGrams generated in: ')
-    const nGrams = [];
+    const ngrams = [];
     for (let word of words) {
       for (let i = 0; i < word.length; i++) {
         const currentSlice = word.slice(i, i + this.order);
         if (currentSlice.length < this.order) break;
-        nGrams.push(currentSlice);
+        ngrams.push(currentSlice);
       }
     }
-    const cleanNgrams = this._cleanNGrams(nGrams)
-    console.log(green('Raw ngrams:'), nGrams.length)
+    const cleanNgrams = this._removeUnwantedNgrams(nGrams)
+    console.log(green('Raw ngrams:'), ngrams.length)
     console.log(green('Clean ngrams:'), cleanNgrams.length)
     return cleanNgrams;
   }
@@ -61,4 +62,4 @@ class NGramGenerator {
   }
 }
 
-module.exports = NGramGenerator
+module.exports = NgramGenerator
