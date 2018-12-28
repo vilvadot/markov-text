@@ -69,6 +69,7 @@ class Markov {
   _setFirstFragment() {
     const ngrams = Object.keys(this.ngrams)
     const randomId = random(ngrams.length - 1);
+    // this.word = ngrams[randomId];
     this.word = ngrams[randomId];
   }
 }

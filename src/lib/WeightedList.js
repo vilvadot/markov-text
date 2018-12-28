@@ -1,16 +1,8 @@
 class WeightedList {
+  // weightMap[{value: weight}]
   constructor(weightMap = {}) {
-    // {value: weight}
-    this.setWeights(weightMap)
+    this.weightMap = weightMap
     this.count = Object.keys(weightMap).length
-  }
-
-  _sumWeights() {
-    let weightSum = 0;
-    for (let key in this.weightMap) {
-      weightSum += this.weightMap[key];
-    }
-    return weightSum;
   }
 
   setWeights(weightMap){
@@ -24,14 +16,22 @@ class WeightedList {
   getItem() {
     const max = this._sumWeights()
     let target = Math.random() * max
-    for(let key in this.weightMap){
-      let weight = this.weightMap[key]
+    for(let item in this.weightMap){
+      let weight = this.weightMap[item]
       if(target <= weight){
-        return key
+        return item
       }else{
         target -= weight
       }
     }
+  }
+
+  _sumWeights() {
+    let weightSum = 0;
+    for (let item in this.weightMap) {
+      weightSum += this.weightMap[item];
+    }
+    return weightSum;
   }
 }
 

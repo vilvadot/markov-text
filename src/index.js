@@ -2,22 +2,36 @@ const fs = require("fs");
 const path = require("path");
 const NGramGenerator = require("./lib/NGramGenerator");
 const Markov = require("./lib/Markov");
-const WeightedList = require("./lib/WeightedList");
 
-const trainingPath = "./train/planets.txt";
-const ngramsPath = "./ngrams.json";
+const trainingDirectory = "./training/";
+const trainingFile = `${trainingDirectory}/planets.txt`;
+const trainingPath = path.resolve(__dirname, trainingFile)
 
-const trainingText = fs.readFileSync(path.resolve(__dirname, trainingPath), "utf-8");
+const fileName = trainingFile
+  .split("/")
+  .slice(-1)[0]
+  .replace(".txt", "");
 
-let ngrams = []
+const ngramsFile = `${trainingDirectory}/${fileName}_ngrams.json`;
+const ngramsPath = path.resolve(__dirname, ngramsFile);
 
-try{
-  const fileContents = fs.readFileSync(path.resolve(__dirname, ngramsPath), "utf-8")
-  ngrams = JSON.parse(fileContents)
-}catch(err){
-  ngrams = new NGramGenerator(trainingText, 3).saveToFile()
+let ngrams = [];
+
+try {
+  const fileContents = fs.readFileSync(ngramsPath, "utf-8");
+  ngrams = JSON.parse(fileContents);
+
+} catch (err) {
+
+  const trainingText = fs.readFileSync(
+    trainingPath,
+    "utf-8"
+  );
+
+  ngrams = new NGramGenerator(trainingText, 3).getNgrams();
+  fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-const markov = new Markov(ngrams)
+const generatedText = new Markov(ngrams).generateWord([3, 12]);
 
-console.log(markov.generateWord([3, 9]))
+console.log(generatedText);
