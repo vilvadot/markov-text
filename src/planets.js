@@ -1,10 +1,10 @@
 const fs = require("fs");
 const path = require("path");
-const NgramWordGenerator = require("./lib/NgramWordGenerator");
+const NGramGenerator = require("./lib/NGramGenerator");
 const MarkovChain = require("./lib/MarkovChain");
 
 const trainingDirectory = "./training/";
-const trainingFile = `${trainingDirectory}/methamorphosis_short.txt`;
+const trainingFile = `${trainingDirectory}/planets.txt`;
 const trainingPath = path.resolve(__dirname, trainingFile)
 
 const fileName = trainingFile
@@ -27,10 +27,11 @@ try {
     trainingPath,
     "utf-8"
   );
-  ngrams = new NgramWordGenerator(trainingText, 3).getNgrams();
+
+  ngrams = new NGramGenerator(trainingText, 3).getNgrams();
   fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-const generatedText = new MarkovChain(ngrams).generateSentence();
+const generatedText = new MarkovChain(ngrams).generateWord([3, 12]);
 
 console.log(generatedText);

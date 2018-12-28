@@ -15,11 +15,15 @@ class MarkovChain {
     this.isDebugMode = mode;
   }
 
-  generateWord(desiredLength = 5) {
+  generateSentence(desiredLength = 15) {
     this._setWordLength(desiredLength);
     this._setFirstFragment();
-    for (let i = this.word.length; i < this.wordLength; i++) {
-      this._addNextFragment();
+    let numWords = this.word.split(' ').length
+
+    for (let i = numWords; i < desiredLength; i++) {
+      const nextFragment = this._getNextFragment();
+      if (!nextFragment) break;
+      this.word = this.word + ' ' + nextFragment;
       this._debug(chalk.grey(`${i}_______________`));
     }
     return this.word;
@@ -35,22 +39,19 @@ class MarkovChain {
     this.wordLength = wordLength;
   }
 
-  _getNextFragmentFromCurrent(startLetters) {
-    this._debug({ startLetters });
-
-    const matchingNgrams = Object.keys(this.ngrams).filter(ngram =>
-      ngram.startsWith(startLetters)
+  _getNextFragmentFromCurrent(startWord) {
+    this._debug({ startWord });
+    const matchingNgrams = Object.keys(this.ngrams).filter(ngram => {
+      return ngram.split(' ')[0] == startWord
+    }
     );
-
     const mapWithMatchingNgrams = pick(this.ngrams, matchingNgrams);
-
-    this._debug(mapWithMatchingNgrams);
+    this._debug({mapWithMatchingNgrams});
 
     const ngramList = new WeightedList(mapWithMatchingNgrams);
     const nextFragment = ngramList.getItem();
 
     this._debug({ nextFragment });
-    
     return nextFragment;
   }
 
@@ -60,22 +61,17 @@ class MarkovChain {
     }
   }
 
-  _addNextFragment() {
+  _getNextFragment() {
     this._debug(chalk.red(this.word));
-
     // Gets last letters of word
-    const currentSyllabe = this.word.slice(
-      this.word.length - this.order + 1,
-      this.word.length
-    );
+    const currentWord = this.word.split(' ').slice(-1)[0]
     // Chooses ngram matching that start
-    const next = this._getNextFragmentFromCurrent(currentSyllabe);
+    const next = this._getNextFragmentFromCurrent(currentWord);
 
     // If no matching ngram next piece is blank
-    const nextFragment = next ? next.slice(2) : "";
-
+    const nextFragment = next && next.split(' ')[1]
     // Merges pieces together
-    this.word = this.word + nextFragment;
+    return nextFragment;
   }
 
   _setFirstFragment() {
