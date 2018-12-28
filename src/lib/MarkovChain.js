@@ -2,7 +2,7 @@ const { random, pick } = require("lodash");
 const chalk = require("chalk");
 const WeightedList = require("./WeightedList");
 
-class Markov {
+class MarkovChain {
   constructor(ngrams) {
     this.ngrams = ngrams;
     this.order = Object.keys(this.ngrams)[0].length;
@@ -85,4 +85,4 @@ class Markov {
   }
 }
 
-module.exports = Markov;
+module.exports = MarkovChain;

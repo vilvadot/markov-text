@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const NGramGenerator = require("./lib/NGramGenerator");
-const Markov = require("./lib/Markov");
+const MarkovChain = require("./lib/MarkovChain");
 
 const trainingDirectory = "./training/";
 const trainingFile = `${trainingDirectory}/planets.txt`;
@@ -32,6 +32,6 @@ try {
   fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-const generatedText = new Markov(ngrams).generateWord([3, 12]);
+const generatedText = new MarkovChain(ngrams).generateWord([3, 12]);
 
 console.log(generatedText);
