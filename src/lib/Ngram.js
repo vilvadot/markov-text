@@ -1,23 +1,55 @@
-class Ngram {
+class MultipleWordNgram {
   constructor(text) {
-    this.text = text;
-    this.words = text.split(" ");
-    this.isMultipleWords = this.words.length > 1;
+    this.words = text.split(" ")
   }
 
-  getHead(headLength = 3) {
-    if (this.isMultipleWords) {
-      return this.words.slice(0, headLength).join(' ');
-    }
-    return this.words[0].slice(0, headLength)
+  getHead(headLength = 1) {
+    return this.words.slice(0, headLength).join(" ")
   }
 
-  getTail(tailLength = 3) {
-    if (this.isMultipleWords) {
-      return this.words.slice(-1)[0];
-    }
-    return this.words[0].slice(-tailLength);
+  getTail(tailLength = 1) {
+    return this.words.slice(-tailLength)[0]
   }
 }
 
-module.exports = Ngram;
+class SingleWordNgram {
+  constructor(word) {
+    this.word = word
+  }
+
+  getHead(headLength = 3) {
+    return this.word.slice(0, headLength)
+  }
+
+  getTail(tailLength = 3) {
+    return this.word.slice(-tailLength)
+  }
+}
+
+class Ngram {
+  constructor(text) {
+    this.text = text
+    this.words = text.split(" ")
+    this.isMultipleWords = this.words.length > 1
+    // TODO: Siempre todas las props inicializadas en el constructor
+    // this.ngram = ??
+    this._setNgramKind()
+  }
+
+  _setNgramKind() {
+    if (this.isMultipleWords) {
+      return (this.ngram = new MultipleWordNgram(this.text))
+    }
+    this.ngram = new SingleWordNgram(this.text)
+  }
+
+  getHead(headLength) {
+    return this.ngram.getHead(headLength)
+  }
+
+  getTail(tailLength) {
+    return this.ngram.getTail(tailLength)
+  }
+}
+
+module.exports = Ngram
