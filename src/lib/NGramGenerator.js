@@ -1,33 +1,49 @@
-const {yellow, green} = require("chalk");
+const { yellow, green, red, black, bgYellow } = require("chalk");
+
+const defaultCleaningFn = (ngrams) => ngrams
 
 class NgramGenerator {
-  constructor(corpus, order = 3) {
+  constructor(corpus, options) {
     this.corpus = corpus;
-    this.order = order;
-    this.weightedNgrams = {}
+    this.order = options.order || 3;
+    this.weightedNgrams = {};
+    this.splitFn = options.splitFn;
+    this.cleanFn = options.cleanFn || defaultCleaningFn;
+    // TODO: Error handling en el constructor?
+    try {
+      this._validateConfig(options);
+    } catch (error) {
+      return console.error(red(error));
+    }
     // TODO: Chain methods in constructor vs calling single method aggregating all of them?
     this._generateWeightedNgrams();
   }
 
-  getNgrams(){
-    return this.weightedNgrams
+  getNgrams() {
+    return this.weightedNgrams;
   }
 
-  _splitCorpusIntoWords() {
-    const words = this.corpus.split(" ")
-    return words.map(word => word.toLowerCase());
+  _validateConfig(options) {
+    if (!options) {
+      throw new Error("You must provide an options object");
+    }
+    if (typeof this.corpus !== "string") {
+      throw new Error("Training material must be a string");
+    }
+    if (typeof options.splitFn !== "function") {
+      throw new Error("Please provide a valid splitting function");
+    }
+    if (!options.order) {
+      console.log(black.bgYellow('No ngram order found, using 3 as default'))
+    }
   }
 
   _removeUnwantedNgrams(ngrams) {
-    const ngramsWithOnlyLetters = ngrams.filter(nGram => {
-      const regExpOnlyLetters = /^[a-zA-Z]+$/g;
-      return regExpOnlyLetters.test(nGram);
-    });
-    return ngramsWithOnlyLetters
+    return this.cleanFn(ngrams);
   }
 
   _calcWeights(ngrams) {
-    console.log(yellow('Calculating weights, this may take a while...'))
+    console.log(yellow("Calculating weights, this may take a while..."));
     for (let ngram of ngrams) {
       if (Object.keys(this.weightedNgrams).includes(ngram)) {
         this.weightedNgrams[ngram]++;
@@ -37,29 +53,21 @@ class NgramGenerator {
     }
   }
 
-  _generateNgrams(words){
+  _generateNgrams() {
     // TODO: Where to put logging? in this method or in _generateWeightedNgrams?
-    console.log(yellow('Generating nGrams...'))
-    console.time('NGrams generated in: ')
-    const ngrams = [];
-    for (let word of words) {
-      for (let i = 0; i < word.length; i++) {
-        const currentSlice = word.slice(i, i + this.order);
-        if (currentSlice.length < this.order) break;
-        ngrams.push(currentSlice);
-      }
-    }
-    const cleanNgrams = this._removeUnwantedNgrams(nGrams)
-    console.log(green('Raw ngrams:'), ngrams.length)
-    console.log(green('Clean ngrams:'), cleanNgrams.length)
-    return cleanNgrams;
+    console.log(yellow("Generating nGrams..."));
+    console.time("NGrams generated in: ");
+
+    const ngrams = this.splitFn(this.corpus, this.order);
+
+    console.log(green("Ngrams:"), ngrams.length);
+    return this._removeUnwantedNgrams(ngrams);
   }
 
   _generateWeightedNgrams() {
-    const words = this._splitCorpusIntoWords();
-    const ngrams = this._generateNgrams(words);
+    const ngrams = this._generateNgrams();
     this._calcWeights(ngrams);
   }
 }
 
-module.exports = NgramGenerator
+module.exports = NgramGenerator;
