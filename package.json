@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon -w *.js src/index",
     "start": "node src/index",
-    "generate:sentence": "nodemon src/sentence",
+    "generate:sentence": "DEBUG=true nodemon src/sentence",
     "test": "mocha --recursive ./test",
     "test:watch": "mocha --recursive ./test --watch"
   },

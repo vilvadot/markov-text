@@ -1,7 +1,7 @@
 const { yellow, green, red, black, bgYellow } = require("chalk");
 const log = require('./logger')
 
-const defaultCleaningFn = (ngrams) => ngrams
+const defaultCleaningFn = ngrams => ngrams
 
 class NgramGenerator {
   constructor(text, options) {
@@ -11,12 +11,16 @@ class NgramGenerator {
     this.order = options.order || 3;
     this.weightedNgrams = {};
     this.splitFn = options.splitFn;
-    this.cleanFn = options.splitFn || defaultCleaningFn;
+    this.cleanFn = options.cleanFn || defaultCleaningFn;
     // TODO: Chain methods in constructor vs calling single method aggregating all of them?
-    this._generateWeightedNgrams();
   }
 
   getNgrams() {
+    // Better to do this in the constructor??
+    const ngramsLength = Object.keys(this.weightedNgrams).length
+    if(!ngramsLength){
+      this._generateWeightedNgrams();
+    }
     return this.weightedNgrams;
   }
 
@@ -53,17 +57,9 @@ class NgramGenerator {
     }
   }
 
-  _debug(content){
-    if(process.env.DEBUG){
-      log(content)
-    }
-  }
-
   _generateNgrams() {
     // TODO: Where to put logging? in this method or in _generateWeightedNgrams?
     log(yellow("Generating nGrams..."));
-    console.time("NGrams generated in: ");
-
     const ngrams = this.splitFn(this.text, this.order);
 
     log(green("Ngrams:"), ngrams.length);
