@@ -1,4 +1,4 @@
-exports.splitIntoWords = (text, numWords) => {
+exports.splitIntoWords = (text, numWords = 1) => {
   const words = text.split(" ");
   const wordPairs = [];
 

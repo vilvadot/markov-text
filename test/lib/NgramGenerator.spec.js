@@ -4,7 +4,6 @@ const NgramGenerator = require("../../src/lib/NgramGenerator")
 const {splitIntoWords, cleanWords} = require('../../src/lib/processors/words');
 
 const sampleText = "Lorem ipsum dolor sit ammet"
-const returnInputUntouched = input => input
 
 describe("NgramGenerator", () => {
 

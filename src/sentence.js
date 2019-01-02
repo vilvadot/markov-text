@@ -5,7 +5,7 @@ const NgramGenerator = require("./lib/NgramGenerator");
 const MarkovChain = require("./lib/MarkovChain");
 
 const trainingDirectory = "./training/originals/";
-const outputDirectory = "./training/output/";
+const outputDirectory = "./training/input/";
 const trainingFile = `${trainingDirectory}/methamorphosis_short.txt`;
 const trainingPath = path.resolve(__dirname, trainingFile)
 
