@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon -w *.js src/index",
     "start": "node src/index",
-    "generate:sentence": "nodemon src/sentence"
+    "generate:sentence": "nodemon src/sentence",
+    "test": "mocha --recursive ./test",
+    "test:watch": "mocha --recursive ./test --watch"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +17,9 @@
     "chalk": "^2.4.1",
     "lodash": "^4.17.11",
     "nodemon": "^1.18.9"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
   }
 }

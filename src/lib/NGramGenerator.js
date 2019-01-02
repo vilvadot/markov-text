@@ -1,20 +1,17 @@
 const { yellow, green, red, black, bgYellow } = require("chalk");
+const log = require('./logger')
 
 const defaultCleaningFn = (ngrams) => ngrams
 
 class NgramGenerator {
   constructor(text, options) {
     this.text = text;
+    this._validateConfig(options);
+    // TODO: Error handling en el constructor?
     this.order = options.order || 3;
     this.weightedNgrams = {};
     this.splitFn = options.splitFn;
-    this.cleanFn = options.cleanFn || defaultCleaningFn;
-    // TODO: Error handling en el constructor?
-    try {
-      this._validateConfig(options);
-    } catch (error) {
-      return console.error(red(error));
-    }
+    this.cleanFn = options.splitFn || defaultCleaningFn;
     // TODO: Chain methods in constructor vs calling single method aggregating all of them?
     this._generateWeightedNgrams();
   }
@@ -24,6 +21,9 @@ class NgramGenerator {
   }
 
   _validateConfig(options) {
+    if (!this.text) {
+      throw new Error("You must provide a text");
+    }
     if (!options) {
       throw new Error("You must provide an options object");
     }
@@ -34,7 +34,7 @@ class NgramGenerator {
       throw new Error("Please provide a valid splitting function");
     }
     if (!options.order) {
-      console.log(black.bgYellow('No ngram order found, using 3 as default'))
+      log(black.bgYellow('No ngram order found, using 3 as default'))
     }
   }
 
@@ -43,7 +43,7 @@ class NgramGenerator {
   }
 
   _calcWeights(ngrams) {
-    console.log(yellow("Calculating weights, this may take a while..."));
+    log(yellow("Calculating weights, this may take a while..."));
     for (let ngram of ngrams) {
       if (Object.keys(this.weightedNgrams).includes(ngram)) {
         this.weightedNgrams[ngram]++;
@@ -53,14 +53,20 @@ class NgramGenerator {
     }
   }
 
+  _debug(content){
+    if(process.env.DEBUG){
+      log(content)
+    }
+  }
+
   _generateNgrams() {
     // TODO: Where to put logging? in this method or in _generateWeightedNgrams?
-    console.log(yellow("Generating nGrams..."));
+    log(yellow("Generating nGrams..."));
     console.time("NGrams generated in: ");
 
     const ngrams = this.splitFn(this.text, this.order);
 
-    console.log(green("Ngrams:"), ngrams.length);
+    log(green("Ngrams:"), ngrams.length);
     return this._removeUnwantedNgrams(ngrams);
   }
 
