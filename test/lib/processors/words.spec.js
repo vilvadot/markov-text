@@ -2,7 +2,7 @@ const chai = require("chai");
 const expect = chai.expect;
 const {
   splitIntoWords,
-  cleanWords
+  removeUnwantedBlocks
 } = require("../../../src/lib/processors/words");
 
 const sampleText = "Lorem ipsum dolor sit ammet ";
@@ -26,7 +26,7 @@ describe("Processor: Words", () => {
       expect(words).to.deep.equal(expectedWords);
     });
 
-    it("removes blocks with invalid characters", () => {
+    it("discards blocks with invalid characters", () => {
       const sampleText = "Lorem][]:2 ,ipsum\n dolor sit ammet ";
 
       const expectedWords = [
@@ -34,7 +34,7 @@ describe("Processor: Words", () => {
       ];
 
       const words = splitIntoWords(sampleText, 3);
-      const clean = cleanWords(words);
+      const clean = removeUnwantedBlocks(words);
 
       expect(clean).to.deep.equal(expectedWords);
   });

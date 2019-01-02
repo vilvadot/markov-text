@@ -13,4 +13,11 @@ exports.splitIntoSyllabes = (text, numSyllabes = 2) => {
   return syllabes;
 };
 
-exports.cleanSyllabes = syllabes => {};
+exports.removeUnwantedBlocks = syllabes => {
+  const onlyLetters = syllabes.filter(syllabe => {
+    const regExpOnlyLetters = /^[a-zA-Z]+$/g;
+    return regExpOnlyLetters.test(syllabe);
+  });
+  
+  return onlyLetters
+};

@@ -18,7 +18,7 @@ exports.splitIntoWords = (text, numWords = 1) => {
   return wordPairs;
 };
 
-exports.cleanWords = words => {
+exports.removeUnwantedBlocks = words => {
   const wordPairs = words.filter(word => {
     const isEndLinePair = word.indexOf("\n") == word.length - 1;
     return !word.includes("\n") || isEndLinePair;
