@@ -3,8 +3,8 @@ const { yellow, green, red, black, bgYellow } = require("chalk");
 const defaultCleaningFn = (ngrams) => ngrams
 
 class NgramGenerator {
-  constructor(corpus, options) {
-    this.corpus = corpus;
+  constructor(text, options) {
+    this.text = text;
     this.order = options.order || 3;
     this.weightedNgrams = {};
     this.splitFn = options.splitFn;
@@ -27,7 +27,7 @@ class NgramGenerator {
     if (!options) {
       throw new Error("You must provide an options object");
     }
-    if (typeof this.corpus !== "string") {
+    if (typeof this.text !== "string") {
       throw new Error("Training material must be a string");
     }
     if (typeof options.splitFn !== "function") {
@@ -58,7 +58,7 @@ class NgramGenerator {
     console.log(yellow("Generating nGrams..."));
     console.time("NGrams generated in: ");
 
-    const ngrams = this.splitFn(this.corpus, this.order);
+    const ngrams = this.splitFn(this.text, this.order);
 
     console.log(green("Ngrams:"), ngrams.length);
     return this._removeUnwantedNgrams(ngrams);
