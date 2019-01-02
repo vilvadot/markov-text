@@ -1,6 +1,7 @@
 const { random, pick } = require("lodash");
 const chalk = require("chalk");
 const WeightedList = require("./WeightedList");
+const log = require("./logger");
 
 class MarkovChain {
   constructor(ngrams) {
@@ -8,11 +9,6 @@ class MarkovChain {
     this.order = Object.keys(this.ngrams)[0].length;
     this.word = "";
     this.wordLength = 0;
-    this.isDebugMode = false;
-  }
-
-  setDebugging(mode = true) {
-    this.isDebugMode = mode;
   }
 
   generateSentence(desiredLength = 15) {
@@ -24,7 +20,7 @@ class MarkovChain {
       const nextFragment = this._getNextFragment();
       if (!nextFragment) break;
       this.word = this.word + ' ' + nextFragment;
-      this._debug(chalk.grey(`${i}_______________`));
+      log(chalk.grey(`${i}_______________`));
     }
     return this.word;
   }
@@ -40,29 +36,23 @@ class MarkovChain {
   }
 
   _getNextFragmentFromCurrent(startWord) {
-    this._debug({ startWord });
+    log({ startWord });
     const matchingNgrams = Object.keys(this.ngrams).filter(ngram => {
       return ngram.split(' ')[0] == startWord
     }
     );
     const mapWithMatchingNgrams = pick(this.ngrams, matchingNgrams);
-    this._debug({mapWithMatchingNgrams});
+    log({mapWithMatchingNgrams});
 
     const ngramList = new WeightedList(mapWithMatchingNgrams);
     const nextFragment = ngramList.getItem();
 
-    this._debug({ nextFragment });
+    log({ nextFragment });
     return nextFragment;
   }
 
-  _debug(contents) {
-    if (this.isDebugMode) {
-      console.log(contents);
-    }
-  }
-
   _getNextFragment() {
-    this._debug(chalk.red(this.word));
+    log(chalk.red(this.word));
     // Gets last letters of word
     const currentWord = this.word.split(' ').slice(-1)[0]
     // Chooses ngram matching that start

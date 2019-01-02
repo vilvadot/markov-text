@@ -1,11 +1,13 @@
-class MapItem{
+const Ngram = require('./Ngram')
+
+class NgramItem{
   constructor(content, weight){
-    this.content = content
+    this.content = new Ngram(content).text
     this.weight = weight
   }
 }
 
-class WeightedList {
+class WeightedNgramList {
   // weightMap[{value: weight}]
   constructor(weightMap = {}) {
     this.setWeights(weightMap);
@@ -15,7 +17,7 @@ class WeightedList {
   setWeights(blueprint) {
     let weights = {}
     Object.keys(blueprint).forEach(key =>{
-      weights[key] = new MapItem(key, blueprint[key])
+      weights[key] = new NgramItem(key, blueprint[key])
     })
     this.weightMap = weights
   }
@@ -48,4 +50,4 @@ class WeightedList {
   }
 }
 
-module.exports = WeightedList;
+module.exports = WeightedNgramList;

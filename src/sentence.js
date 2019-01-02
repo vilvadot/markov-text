@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const {bgBlue, black} = require("chalk");
 const {splitIntoWords, removeUnwantedBlocks} = require('./lib/processors/words');
 const NgramGenerator = require("./lib/NgramGenerator");
 const MarkovChain = require("./lib/MarkovChain");
@@ -37,9 +38,10 @@ try {
     "utf-8"
   );
   ngrams = new NgramGenerator(trainingText, options).getNgrams();
+  console.log(ngrams)
   // fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
 const generatedText = new MarkovChain(ngrams).generateSentence(100);
 
-console.log(generatedText)
+console.log(black.bgBlue(generatedText))
