@@ -13,12 +13,6 @@ class NgramGenerator {
     return this.weightedNgrams
   }
 
-  // hello world how are you
-  // hello world
-  // world how
-  // how are
-  // are you
-
   _removeUnwantedPairs(ngrams) {
     const wordPairs = ngrams.filter(ngram => {
       const isEndLinePair = ngram.indexOf('\n') == ngram.length - 1
