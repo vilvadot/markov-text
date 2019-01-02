@@ -1,11 +1,11 @@
 const fs = require("fs");
 const path = require("path");
-const {splitIntoWords, cleanWords} = require('./lib/processors/words');
+const {splitIntoWords, removeUnwantedBlocks} = require('./lib/processors/words');
 const NgramGenerator = require("./lib/NgramGenerator");
 const MarkovChain = require("./lib/MarkovChain");
 
-const trainingDirectory = "./training/originals/";
-const outputDirectory = "./training/input/";
+const trainingDirectory = "./training/input/";
+const outputDirectory = "./training/output/";
 const trainingFile = `${trainingDirectory}/methamorphosis_short.txt`;
 const trainingPath = path.resolve(__dirname, trainingFile)
 
@@ -21,7 +21,7 @@ let ngrams = [];
 
 const options = {
   splitFn: splitIntoWords,
-  // cleanFn: cleanWords,
+  cleanFn: removeUnwantedBlocks,
   order: 3,
 }
 

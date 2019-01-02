@@ -7,6 +7,7 @@
     "dev": "nodemon -w *.js src/index",
     "start": "node src/index",
     "generate:sentence": "DEBUG=true nodemon src/sentence",
+    "generate:planets": "DEBUG=true nodemon src/planets",
     "test": "mocha --recursive ./test",
     "test:watch": "mocha --recursive ./test --watch"
   },

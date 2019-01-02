@@ -1,9 +1,11 @@
 const fs = require("fs");
 const path = require("path");
-const NGramGenerator = require("./lib/NGramGenerator");
+const {splitIntoSyllabes, removeUnwantedBlocks} = require('./lib/processors/syllabes');
+const NgramGenerator = require("./lib/NgramGenerator");
 const MarkovChain = require("./lib/MarkovChain");
 
-const trainingDirectory = "./training/";
+const trainingDirectory = "./training/input/";
+const outputDirectory = "./training/output/";
 const trainingFile = `${trainingDirectory}/planets.txt`;
 const trainingPath = path.resolve(__dirname, trainingFile)
 
@@ -12,10 +14,17 @@ const fileName = trainingFile
   .slice(-1)[0]
   .replace(".txt", "");
 
-const ngramsFile = `${trainingDirectory}/${fileName}_ngrams.json`;
+const ngramsFile = `${outputDirectory}${fileName}_ngrams.json`;
 const ngramsPath = path.resolve(__dirname, ngramsFile);
 
 let ngrams = [];
+
+const options = {
+  splitFn: splitIntoSyllabes,
+  cleanFn: removeUnwantedBlocks,
+  order: 3,
+}
+
 
 try {
   const fileContents = fs.readFileSync(ngramsPath, "utf-8");
@@ -27,11 +36,11 @@ try {
     trainingPath,
     "utf-8"
   );
-
-  ngrams = new NGramGenerator(trainingText, 3).getNgrams();
-  fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
+  ngrams = new NgramGenerator(trainingText, options).getNgrams();
+  console.log(ngrams)
+  // fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-const generatedText = new MarkovChain(ngrams).generateWord([3, 12]);
+const generatedText = new MarkovChain(ngrams).generateSentence(100);
 
-console.log(generatedText);
+console.log(generatedText)
