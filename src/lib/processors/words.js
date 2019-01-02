@@ -1,13 +1,18 @@
-exports.splitIntoWords = (text, length) => {
+exports.splitIntoWords = (text, numWords) => {
   const words = text.split(" ");
   const wordPairs = [];
 
   for (let i = 0; i < words.length; i++) {
     const currentWordCombination = []
-    for (let j = 0; j < length; j++){
+    for (let j = 0; j < numWords; j++){
+      if (!words[i + j]) break
       currentWordCombination.push(words[i + j])
     }
-    wordPairs[i] = currentWordCombination.join(' ');
+    const isCombinationLongEnough = currentWordCombination.length === numWords
+
+    if(isCombinationLongEnough){
+      wordPairs[i] = currentWordCombination.join(' ');
+    }
   }
 
   return wordPairs;

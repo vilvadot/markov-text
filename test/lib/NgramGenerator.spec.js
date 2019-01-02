@@ -4,6 +4,7 @@ const NgramGenerator = require("../../src/lib/NgramGenerator")
 const {splitIntoWords, cleanWords} = require('../../src/lib/processors/words');
 
 const sampleText = "Lorem ipsum dolor sit ammet"
+const returnInputUntouched = input => input
 
 describe("NgramGenerator", () => {
 
@@ -61,7 +62,7 @@ describe("NgramGenerator", () => {
   })
 
   describe("ngram generation", () => {
-    it('applies cleaning function correctly', () => {
+    it('removes unwanted ngrams with cleaning function', () => {
 
       const sampleNgrams = ['1','3','a','b']
       const onlyLetters = ['a','b']
@@ -74,9 +75,38 @@ describe("NgramGenerator", () => {
       }
 
       const generator = new NgramGenerator(sampleText, options)
-      cleanNgrams = generator._removeUnwantedNgrams(sampleNgrams)
+      const cleanNgrams = generator._removeUnwantedNgrams(sampleNgrams)
       
       expect(cleanNgrams).to.be.eql(onlyLetters)
+    })
+
+    it('splits text into ngrams with splitting function', () => {
+
+      const expectedNgramgs = ['Lorem','ipsum','dolor','sit','ammet']
+      const options = {
+        splitFn: input => input.split(' '),
+        cleanFn: input => input,
+      }
+
+      const generator = new NgramGenerator(sampleText, options)
+      splitNgrams = generator._generateNgrams()
+      
+      expect(splitNgrams).to.be.eql(expectedNgramgs)
+    })
+
+    it('splitting function is receives ngram order', () => {
+
+      const expectedNgramgs = ['Lorem ipsum dolor sit','ipsum dolor sit ammet']
+      const options = {
+        splitFn: splitIntoWords,
+        cleanFn: input => input,
+        order: 4,
+      }
+
+      const generator = new NgramGenerator(sampleText, options)
+      splitNgrams = generator._generateNgrams()
+      
+      expect(splitNgrams).to.be.eql(expectedNgramgs)
     })
 
   })
