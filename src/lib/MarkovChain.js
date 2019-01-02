@@ -9,11 +9,11 @@ class MarkovChain {
     this.list = new WeightedList(ngramWeights)
     this.order = Object.keys(this.ngrams)[0].length;
     this.word = "";
-    this.wordLength = 0;
+    this.resultLength = 0;
   }
 
   generateSentence(desiredLength = 15) {
-    this._setWordLength(desiredLength);
+    this._setResultLength(desiredLength);
     this._setFirstFragment();
     let numWords = this.word.split(' ').length
 
@@ -26,14 +26,15 @@ class MarkovChain {
     return this.word;
   }
 
-  _setWordLength(desiredLength) {
+  _setResultLength(desiredLength) {
+    // TODO: Tiene sentido hacerlo así?
     // desiredLength can be aa single Integer or Array[minlen, maxlen]
-    let wordLength = desiredLength;
+    let resultLength = desiredLength;
     const lengthIsAnArray = Array.isArray(desiredLength);
     if (lengthIsAnArray) {
-      wordLength = random(desiredLength[0], desiredLength[1]);
+      resultLength = random(desiredLength[0], desiredLength[1]);
     }
-    this.wordLength = wordLength;
+    this.resultLength = resultLength;
   }
 
   _getNextFragmentFromCurrent(startWord) {

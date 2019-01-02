@@ -24,4 +24,22 @@ describe("MarkovChain", () => {
     expect(generated).to.not.be.undefined
   })
 
+  it("desired result length can be an integer", () => {
+    const five = 5
+    markov._setResultLength(five)
+
+    const resultLength = markov.resultLength
+    expect(resultLength).to.be.equal(five)
+  })
+
+  it("desired result length can be an array", () => {
+    const zero = 0
+    const five = 5
+
+    markov._setResultLength([zero,five])
+    const resultLength = markov.resultLength
+    expect(resultLength).to.be.lt(five)
+    expect(resultLength).to.be.gte(zero)
+  })
+
 })
