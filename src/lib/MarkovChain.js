@@ -4,8 +4,8 @@ const WeightedList = require("./WeightedList");
 const log = require("./logger");
 
 class MarkovChain {
-  constructor(ngrams) {
-    this.ngrams = ngrams;
+  constructor(ngramWeights) {
+    this.ngrams = ngramWeights;
     this.order = Object.keys(this.ngrams)[0].length;
     this.word = "";
     this.wordLength = 0;

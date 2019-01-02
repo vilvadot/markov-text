@@ -1,4 +1,5 @@
 const Ngram = require('./Ngram')
+const {random} = require('lodash')
 
 class NgramItem{
   constructor(content, weight){
@@ -24,6 +25,15 @@ class WeightedNgramList {
 
   clearWeights() {
     this.weightMap = {};
+  }
+
+  getRandomItem(){
+    const items = Object.keys(this.weightMap)
+    const randomId = random(items.length - 1)
+    const randomItem = items[randomId]
+
+    // FIXME: Return fullobject
+    return this.weightMap[randomItem].content
   }
 
   getItem() {

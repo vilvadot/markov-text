@@ -78,4 +78,18 @@ describe("WeightedList", () => {
 
     })
 
+    it("can return a random item", () => {
+      const list = {
+        mercury: 1,
+        mars: 1,
+        venus: 0
+      }
+
+      const weightedList = new WeightedList(list)
+      const randomItem = weightedList.getRandomItem()
+      const itemIsInList = Object.keys(list).includes(randomItem)
+
+      expect(itemIsInList).to.be.true
+    })
+
 })

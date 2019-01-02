@@ -37,11 +37,10 @@ try {
     trainingPath,
     "utf-8"
   );
-  ngrams = new NgramGenerator(trainingText, options).getNgrams();
-  console.log(ngrams)
+  ngramWeights = new NgramGenerator(trainingText, options).getNgrams();
   // fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-const generatedText = new MarkovChain(ngrams).generateSentence(100);
+const generatedText = new MarkovChain(ngramWeights).generateSentence(100);
 
 console.log(black.bgBlue(generatedText))
