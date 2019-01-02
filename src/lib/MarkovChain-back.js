@@ -6,7 +6,6 @@ const log = require("./logger");
 class MarkovChain {
   constructor(ngramWeights) {
     this.ngrams = ngramWeights;
-    this.list = new WeightedList(ngramWeights)
     this.order = Object.keys(this.ngrams)[0].length;
     this.word = "";
     this.wordLength = 0;
@@ -66,7 +65,9 @@ class MarkovChain {
   }
 
   _setFirstFragment() {
-    this.word = this.list.getRandomItem()
+    const ngrams = Object.keys(this.ngrams);
+    const randomId = random(ngrams.length - 1);
+    this.word = ngrams[randomId];
   }
 }
 
