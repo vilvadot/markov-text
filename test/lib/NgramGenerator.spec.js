@@ -82,21 +82,21 @@ describe("NgramGenerator", () => {
 
     it('splits text into ngrams with splitting function', () => {
 
-      const expectedNgramgs = ['Lorem','ipsum','dolor','sit','ammet']
+      const expectedNgrams = ['Lorem','ipsum','dolor','sit','ammet']
       const options = {
         splitFn: input => input.split(' '),
         cleanFn: input => input,
       }
 
       const generator = new NgramGenerator(sampleText, options)
-      splitNgrams = generator._generateNgrams()
+      const splitNgrams = generator._generateNgrams()
       
-      expect(splitNgrams).to.be.eql(expectedNgramgs)
+      expect(splitNgrams).to.be.eql(expectedNgrams)
     })
 
     it('splitting function receives ngram order', () => {
 
-      const expectedNgramgs = ['Lorem ipsum dolor sit','ipsum dolor sit ammet']
+      const expectedNgrams = ['Lorem ipsum dolor sit','ipsum dolor sit ammet']
       const options = {
         splitFn: splitIntoWords,
         cleanFn: input => input,
@@ -104,9 +104,24 @@ describe("NgramGenerator", () => {
       }
 
       const generator = new NgramGenerator(sampleText, options)
-      splitNgrams = generator._generateNgrams()
+      const splitNgrams = generator._generateNgrams()
       
-      expect(splitNgrams).to.be.eql(expectedNgramgs)
+      expect(splitNgrams).to.be.eql(expectedNgrams)
+    })
+
+    it('generates weighted ngram map', () => {
+
+      const expectedNgramMap = { 'Lorem ipsum dolor sit': 1, 'ipsum dolor sit ammet': 1 }
+      const options = {
+        splitFn: splitIntoWords,
+        cleanFn: input => input,
+        order: 4,
+      }
+
+      const generator = new NgramGenerator(sampleText, options)
+      const ngramMap = generator.getNgrams()
+      
+      expect(ngramMap).to.be.eql(expectedNgramMap)
     })
 
   })

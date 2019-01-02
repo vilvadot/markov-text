@@ -65,7 +65,6 @@ describe("WeightedList", () => {
         mercury: 1,
         venus: 0
       }
-
       const mercury = 'mercury'
 
       const weightedList = new WeightedList(list)
