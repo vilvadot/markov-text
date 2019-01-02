@@ -1,27 +1,27 @@
 class WeightedList {
   // weightMap[{value: weight}]
   constructor(weightMap = {}) {
-    this.weightMap = weightMap
-    this.count = Object.keys(weightMap).length
+    this.weightMap = weightMap;
+    this.count = Object.keys(weightMap).length;
   }
 
-  setWeights(weightMap){
+  setWeights(weightMap) {
     this.weightMap = weightMap;
   }
 
-  clearWeights(){
+  clearWeights() {
     this.weightMap = {};
   }
-  
+
   getItem() {
-    const max = this._sumWeights()
-    let target = Math.random() * max
-    for(let item in this.weightMap){
-      let weight = this.weightMap[item]
-      if(target <= weight){
-        return item
-      }else{
-        target -= weight
+    const max = this._sumWeights();
+    let target = Math.random() * max;
+    for (let item in this.weightMap) {
+      let weight = this.weightMap[item];
+      if (target <= weight) {
+        return item;
+      } else {
+        target -= weight;
       }
     }
   }
@@ -35,4 +35,4 @@ class WeightedList {
   }
 }
 
-module.exports = WeightedList
+module.exports = WeightedList;
