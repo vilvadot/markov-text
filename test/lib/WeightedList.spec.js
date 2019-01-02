@@ -11,9 +11,9 @@ describe("WeightedList", () => {
       }
 
       const weightedList = new WeightedList(list)
-      const map = weightedList.weightMap
+      const itemLength = Object.keys(weightedList.weightMap).length
 
-      expect(map).to.deep.equal(list)
+      expect(itemLength).to.equal(2)
 
     })
 
@@ -25,9 +25,9 @@ describe("WeightedList", () => {
 
       const weightedList = new WeightedList()
       weightedList.setWeights(list)
-      const map = weightedList.weightMap
+      const itemLength = Object.keys(weightedList.weightMap).length
 
-      expect(map).to.deep.equal(list)
+      expect(itemLength).to.equal(2)
 
     })
 

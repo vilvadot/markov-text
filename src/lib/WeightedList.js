@@ -1,12 +1,23 @@
+class MapItem{
+  constructor(content, weight){
+    this.content = content
+    this.weight = weight
+  }
+}
+
 class WeightedList {
   // weightMap[{value: weight}]
   constructor(weightMap = {}) {
-    this.weightMap = weightMap;
+    this.setWeights(weightMap);
     this.count = Object.keys(weightMap).length;
   }
 
-  setWeights(weightMap) {
-    this.weightMap = weightMap;
+  setWeights(blueprint) {
+    let weights = {}
+    Object.keys(blueprint).forEach(key =>{
+      weights[key] = new MapItem(key, blueprint[key])
+    })
+    this.weightMap = weights
   }
 
   clearWeights() {
@@ -16,10 +27,12 @@ class WeightedList {
   getItem() {
     const max = this._sumWeights();
     let target = Math.random() * max;
+
     for (let item in this.weightMap) {
-      let weight = this.weightMap[item];
+      let weight = this.weightMap[item].weight;
       if (target <= weight) {
-        return item;
+        // FIXME: Return fullobject
+        return this.weightMap[item].content;
       } else {
         target -= weight;
       }
@@ -29,7 +42,7 @@ class WeightedList {
   _sumWeights() {
     let weightSum = 0;
     for (let item in this.weightMap) {
-      weightSum += this.weightMap[item];
+      weightSum += this.weightMap[item].weight;
     }
     return weightSum;
   }

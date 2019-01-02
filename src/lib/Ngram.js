@@ -8,7 +8,7 @@ class MultipleWordNgram {
   }
 
   getTail(tailLength = 1) {
-    return this.words.slice(-tailLength)[0]
+    return this.words.slice(-tailLength).join(' ')
   }
 }
 

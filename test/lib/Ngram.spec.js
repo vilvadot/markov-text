@@ -16,13 +16,13 @@ describe("Ngram", () => {
 
   })
 
-  it("returns last word as tail if multiple words", () => {
+  it("returns tail of multiple words", () => {
 
     const text = 'apollo the dog'
-    const expectedTail = 'dog'
+    const expectedTail = 'the dog'
 
     const ngram = new Ngram(text)
-    const tail = ngram.getTail()
+    const tail = ngram.getTail(2)
     
     expect(tail).equal(expectedTail)
 
