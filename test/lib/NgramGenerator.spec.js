@@ -94,7 +94,7 @@ describe("NgramGenerator", () => {
       expect(splitNgrams).to.be.eql(expectedNgramgs)
     })
 
-    it('splitting function is receives ngram order', () => {
+    it('splitting function receives ngram order', () => {
 
       const expectedNgramgs = ['Lorem ipsum dolor sit','ipsum dolor sit ammet']
       const options = {
