@@ -41,6 +41,8 @@ try {
   // fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-const generatedText = new MarkovChain(ngramWeights).generate(5);
-
-console.log(black.bgBlue(generatedText))
+for(let a of Array(10)){
+  const generatedText = new MarkovChain(ngramWeights).generate(5);
+  console.log(black.bgBlue(generatedText))
+  console.log('-----------------------')
+}

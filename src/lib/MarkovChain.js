@@ -24,7 +24,7 @@ class MarkovChain {
       const nextFragment = this._getNextFragment();
       if (!nextFragment) break;
       this.result.push(nextFragment);
-      this._resetList(i);
+      this._resetList(i, i = this.outputLength -1);
     }
   }
 
@@ -33,31 +33,33 @@ class MarkovChain {
     const firstWord = this.result[0].text;
     if (resultLength > 1) {
       const mergeWords = this.result
-        .slice(1, -1)
+        .slice(1)
         .map(ngram => ngram.getMergeString())
         .join("");
-      const lastWord = this.result[this.result.length - 1].text;
-      return firstWord + mergeWords + lastWord;
+      return firstWord + mergeWords;
     }
     return firstWord;
   }
 
-  _resetList(i = 0) {
+  _resetList(i = 0, isLastLoop) {
     //TODO:FIXME: Tiene pinta de ser terriblemente ineficiente (aunque permite utilizar todo tipo de entidades como ngrama)
     const lastFragment = this.result.slice(-1)[0];
-    log(red(`${i} - ${lastFragment.text}`));
     const tail = lastFragment.getTail();
-    log(blue(`${tail}:`));
     const allNgramsList = new WeightedList(this.ngrams);
     const allNgramKeys = Object.values(allNgramsList.getAllItems());
     const filteredKeys = allNgramKeys.filter(ngram => {
       return ngram.getHead() === tail;
     });
-
+    
     const matchingNgrams = filteredKeys.map(ngram => ngram.text);
     const mapWithMatchingNgrams = pick(this.ngrams, matchingNgrams);
-    log(grey(JSON.stringify(mapWithMatchingNgrams, 0, 2)));
     this.list.setWeights(mapWithMatchingNgrams);
+
+    if(!isLastLoop){
+      log(red(`${i} - ${lastFragment.text}`));
+      log(blue(`${tail}:`));
+      log(grey(JSON.stringify(mapWithMatchingNgrams, 0, 2)));
+    }
   }
 
   _setOutputLength(desiredLength) {
