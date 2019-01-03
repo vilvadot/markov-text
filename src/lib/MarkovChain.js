@@ -52,7 +52,7 @@ class MarkovChain {
     this.list = new WeightedList(this.ngrams);
   }
 
-  _recalcList(i = 0, isLastLoop) {
+  _recalcList(i = 0) {
     //TODO:FIXME: Tiene pinta de ser terriblemente ineficiente (aunque permite utilizar todo tipo de entidades como ngrama)
     const lastFragment = this.result.slice(-1)[0];
     const tail = lastFragment.getTail();
