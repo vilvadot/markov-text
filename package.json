@@ -1,6 +1,6 @@
 {
   "name": "markov-text",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple text generator implementing Markov chains",
   "main": "index.js",
   "scripts": {
@@ -10,8 +10,12 @@
     "example:lotr": "DEBUG=true node ./examples/lotr"
   },
   "keywords": ["markov", "markov chain", "procedural text"],
-  "author": "vilvadot",
+  "author": "Vilva <hi@vilva.io>",
   "license": "WTFPL",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vilvadot/markov-text"
+  },
   "dependencies": {
     "chalk": "^2.4.1",
     "lodash": "^4.17.11"
