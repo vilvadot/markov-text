@@ -1,26 +1,25 @@
 {
-  "name": "markovchain",
-  "version": "1.0.0",
-  "description": "",
+  "name": "markov-chain-text-generator",
+  "version": "0.0.1",
+  "description": "Simple text generator implementing Markov chains",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -w *.js src/index",
-    "start": "node src/index",
     "test": "nyc --reporter=text mocha --recursive ./test",
     "test:watch": "mocha --recursive ./test --watch",
-    "example:metamorphosis": "DEBUG=true nodemon ./examples/metamorphosis"
+    "example:metamorphosis": "node ./examples/metamorphosis",
+    "example:lotr": "DEBUG=true node ./examples/lotr"
   },
-  "keywords": [],
+  "keywords": ["markov", "markov chain", "procedural text"],
   "author": "vilvadot",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.1",
-    "lodash": "^4.17.11",
-    "nodemon": "^1.18.9"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
-    "nyc": "^13.1.0"
+    "nyc": "^13.1.0",
+    "nodemon": "^1.18.9"
   }
 }

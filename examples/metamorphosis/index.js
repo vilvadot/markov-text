@@ -11,7 +11,7 @@ const trainingFilePath = path.resolve(
 const trainingText = fs.readFileSync(trainingFilePath, "utf-8");
 
 const options = {
-  mode: 'single',
+  mode: 'multiple',
   order: 4
 };
 

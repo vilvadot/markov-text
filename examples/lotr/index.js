@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { bgBlue, black } = require("chalk");
-const Markov = require("../../lib/Markov");
+const Markov = require("../../src/lib/Markov");
 
 const trainingFilePath = path.resolve(
   __dirname,
@@ -18,6 +18,6 @@ const options = {
 const markov = new Markov(options);
 markov.seed(trainingText);
 
-const generatedText = markov.generate(17);
+const generatedText = markov.generate(5);
 
 console.log(black.bgBlue(generatedText));
