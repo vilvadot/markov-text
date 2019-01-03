@@ -1,6 +1,6 @@
 {
   "name": "markov-text",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple text generator implementing Markov chains",
   "main": "index.js",
   "scripts": {
