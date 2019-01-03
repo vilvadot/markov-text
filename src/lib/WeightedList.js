@@ -1,9 +1,9 @@
 const Ngram = require('./Ngram')
 const {random} = require('lodash')
 
-class NgramItem{
+class NgramItem extends Ngram{
   constructor(content, weight){
-    this.content = new Ngram(content).text
+    super(content)
     this.weight = weight
   }
 }
@@ -32,8 +32,7 @@ class WeightedNgramList {
     const randomId = random(items.length - 1)
     const randomItem = items[randomId]
 
-    // FIXME: Return fullobject
-    return this.weightMap[randomItem].content
+    return this.weightMap[randomItem]
   }
 
   getItem() {
@@ -43,12 +42,16 @@ class WeightedNgramList {
     for (let item in this.weightMap) {
       let weight = this.weightMap[item].weight;
       if (target <= weight) {
-        // FIXME: Return fullobject
-        return this.weightMap[item].content;
+        return this.weightMap[item];
       } else {
         target -= weight;
       }
     }
+  }
+
+  getAllItems(){
+    // return Object.values(this.weightMap)
+    return this.weightMap
   }
 
   _sumWeights() {

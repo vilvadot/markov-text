@@ -23,7 +23,7 @@ let ngrams = [];
 const options = {
   splitFn: splitIntoWords,
   cleanFn: removeUnwantedBlocks,
-  order: 3,
+  order: 5,
 }
 
 
@@ -41,6 +41,6 @@ try {
   // fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-const generatedText = new MarkovChain(ngramWeights).generateSentence(100);
+const generatedText = new MarkovChain(ngramWeights).generateSentence(5);
 
 console.log(black.bgBlue(generatedText))

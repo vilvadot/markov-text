@@ -1,10 +1,14 @@
 class MultipleWordNgram {
   constructor(text) {
-    this.words = text.split(" ")
+    this.words = text.split(' ')
+  }
+
+  getMergeString(){
+    return this.words.slice(1).join(' ')
   }
 
   getHead(headLength = 1) {
-    return this.words.slice(0, headLength).join(" ")
+    return this.words.slice(0, headLength).join(' ')
   }
 
   getTail(tailLength = 1) {
@@ -49,6 +53,10 @@ class Ngram {
 
   getTail(tailLength) {
     return this.ngram.getTail(tailLength)
+  }
+
+  getMergeString(){
+    return this.ngram.getMergeString()
   }
 }
 

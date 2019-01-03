@@ -68,9 +68,9 @@ describe("WeightedList", () => {
       const mercury = 'mercury'
 
       const weightedList = new WeightedList(list)
-      const firstItem = weightedList.getItem()
-      const secondItem = weightedList.getItem()
-      const thirdItem = weightedList.getItem()
+      const firstItem = weightedList.getItem().text
+      const secondItem = weightedList.getItem().text
+      const thirdItem = weightedList.getItem().text
 
       expect(firstItem).to.deep.equal(mercury)
       expect(secondItem).to.deep.equal(mercury)
@@ -86,7 +86,7 @@ describe("WeightedList", () => {
       }
 
       const weightedList = new WeightedList(list)
-      const randomItem = weightedList.getRandomItem()
+      const randomItem = weightedList.getRandomItem().text
       const itemIsInList = Object.keys(list).includes(randomItem)
 
       expect(itemIsInList).to.be.true

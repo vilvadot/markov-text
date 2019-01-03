@@ -1,5 +1,5 @@
 const { random, pick } = require("lodash");
-const chalk = require("chalk");
+const {red} = require("chalk");
 const WeightedList = require("./WeightedList");
 const log = require("./logger");
 
@@ -7,67 +7,66 @@ class MarkovChain {
   constructor(ngramWeights) {
     this.ngrams = ngramWeights;
     this.list = new WeightedList(ngramWeights)
-    this.order = Object.keys(this.ngrams)[0].length;
-    this.word = "";
-    this.resultLength = 0;
+    this.result = [];
+    this.outputLength = 0;
   }
 
   generateSentence(desiredLength = 15) {
-    this._setResultLength(desiredLength);
-    this._setFirstFragment();
-    let numWords = this.word.split(' ').length
+    this._setOutputLength(desiredLength);
+    this._addFragments()
+    return this._joinResult();
+  }
 
-    for (let i = numWords; i < desiredLength; i++) {
+  _addFragments(){
+    this._addFirstFragment();
+
+    for (let i = this.result.length; i < this.outputLength; i++) {
       const nextFragment = this._getNextFragment();
       if (!nextFragment) break;
-      this.word = this.word + ' ' + nextFragment;
-      log(chalk.grey(`${i}_______________`));
+      this.result.push(nextFragment)
+      this._resetList()
     }
-    return this.word;
   }
 
-  _setResultLength(desiredLength) {
-    // TODO: Tiene sentido hacerlo así?
-    // desiredLength can be aa single Integer or Array[minlen, maxlen]
-    let resultLength = desiredLength;
-    const lengthIsAnArray = Array.isArray(desiredLength);
-    if (lengthIsAnArray) {
-      resultLength = random(desiredLength[0], desiredLength[1]);
-    }
-    this.resultLength = resultLength;
+  _joinResult(){
+    const result = this.result.map(ngram => ngram.getMergeString()).join(' ')
+    return result
   }
 
-  _getNextFragmentFromCurrent(startWord) {
-    log({ startWord });
-    const matchingNgrams = Object.keys(this.ngrams).filter(ngram => {
-      return ngram.split(' ')[0] == startWord
-    }
-    );
+  _resetList(){
+    //TODO:FIXME: Tiene pinta de ser terriblemente ineficiente (aunque permite utilizar todo tipo de entidades como ngrama)
+    const tail = this.result.slice(-1)[0].getTail()
+    const allNgramsList = new WeightedList(this.ngrams)
+    const allNgramKeys = Object.values(allNgramsList.getAllItems())
+    const filteredKeys = allNgramKeys.filter((ngram) => {
+      return ngram.getHead() === tail
+    })
+
+    const matchingNgrams = filteredKeys.map(ngram => ngram.text)
     const mapWithMatchingNgrams = pick(this.ngrams, matchingNgrams);
-    log({mapWithMatchingNgrams});
+    this.list.setWeights(mapWithMatchingNgrams)
+  }
 
-    const ngramList = new WeightedList(mapWithMatchingNgrams);
-    const nextFragment = ngramList.getItem();
+  _setOutputLength(desiredLength) {
+    let length = desiredLength;
 
-    log({ nextFragment });
-    return nextFragment;
+    if (Array.isArray(desiredLength)) {
+      length = random(desiredLength[0], desiredLength[1]);
+    }
+
+    this.outputLength = length;
   }
 
   _getNextFragment() {
-    log(chalk.red(this.word));
-    // Gets last letters of word
-    const currentWord = this.word.split(' ').slice(-1)[0]
-    // Chooses ngram matching that start
-    const next = this._getNextFragmentFromCurrent(currentWord);
-
-    // If no matching ngram next piece is blank
-    const nextFragment = next && next.split(' ')[1]
-    // Merges pieces together
-    return nextFragment;
+    log(red(`:${this.result.slice(-1)[0].text}:`))
+    const nextFragment = this.list.getItem()
+    return nextFragment
   }
 
-  _setFirstFragment() {
-    this.word = this.list.getRandomItem()
+  _addFirstFragment() {
+    const firstNgram = this.list.getRandomItem()
+    this.result.push(firstNgram)
+    this._resetList()
   }
 }
 
