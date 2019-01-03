@@ -1,13 +1,13 @@
 {
   "name": "markov-text",
-  "version": "0.1.2",
-  "description": "Simple text generator implementing Markov chains",
-  "main": "index.js",
+  "version": "0.1.4",
+  "description": "A simple procedural text generator implementing Markov chains",
+  "main": "src/index.js",
   "scripts": {
     "test": "nyc --reporter=text mocha --recursive ./test",
     "test:watch": "mocha --recursive ./test --watch",
     "example:metamorphosis": "node ./examples/metamorphosis",
-    "example:lotr": "DEBUG=true node ./examples/lotr"
+    "example:lotr": "node ./examples/lotr"
   },
   "keywords": ["markov", "markov chain", "procedural text"],
   "author": "Vilva <hi@vilva.io>",

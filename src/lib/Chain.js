@@ -1,5 +1,5 @@
 const { random, pick } = require("lodash");
-const { red, grey, blue } = require("chalk");
+const { red, grey, blue, green } = require("chalk");
 const WeightedList = require("./WeightedList");
 const log = require("./logger");
 
@@ -29,6 +29,7 @@ class Chain {
     }
 
     if(this.result.length < this.outputLength/2){
+      log(green(`Chain broken, starting again`));
       this._reset()
       this._addFragments()
     }

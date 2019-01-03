@@ -19,7 +19,7 @@ class Markov {
     this.options = this._setupOptions();
   }
 
-  _setupOptions() {
+  _setupOptions(debug) {
     let processingFunctions = {
       splitFn: words.split,
       cleanFn: words.clean
