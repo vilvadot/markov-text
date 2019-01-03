@@ -1,6 +1,6 @@
 {
-  "name": "markov-chain-text-generator",
-  "version": "0.0.1",
+  "name": "markov-text",
+  "version": "0.1.0",
   "description": "Simple text generator implementing Markov chains",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "keywords": ["markov", "markov chain", "procedural text"],
   "author": "vilvadot",
-  "license": "ISC",
+  "license": "WTFPL",
   "dependencies": {
     "chalk": "^2.4.1",
     "lodash": "^4.17.11"
