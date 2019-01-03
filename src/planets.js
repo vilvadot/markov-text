@@ -22,7 +22,7 @@ let ngrams = [];
 const options = {
   splitFn: splitIntoSyllabes,
   cleanFn: removeUnwantedBlocks,
-  order: 5,
+  order: 4,
 }
 
 
