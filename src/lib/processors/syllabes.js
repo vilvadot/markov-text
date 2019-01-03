@@ -1,7 +1,7 @@
 exports.splitIntoSyllabes = (text, numSyllabes = 2) => {
   const words = text.split(" ");
   const syllabes = [];
-
+  console.log({numSyllabes})
   for (word of words) {
     for (let i = 0; i < word.length; i++) {
       const currentSlice = word.slice(i, i + numSyllabes);

@@ -30,8 +30,9 @@ class MarkovChain {
   }
 
   _joinResult(){
-    const result = this.result.map(ngram => ngram.getMergeString()).join(' ')
-    return result
+    const firstWord = this.result[0].text
+    const result = this.result.slice(1).map(ngram => ngram.getMergeString()).join('')
+    return firstWord + result
   }
 
   _resetList(i = 0){
@@ -39,6 +40,7 @@ class MarkovChain {
     const lastFragment = this.result.slice(-1)[0]
     log(red(`${i} - ${lastFragment.text}`))
     const tail = lastFragment.getTail()
+    console.log({tail})
     const allNgramsList = new WeightedList(this.ngrams)
     const allNgramKeys = Object.values(allNgramsList.getAllItems())
     const filteredKeys = allNgramKeys.filter((ngram) => {

@@ -4,7 +4,7 @@ class MultipleWordNgram {
   }
 
   getMergeString(){
-    return this.words.slice(1).join(' ')
+    return ' ' + this.words.slice(1).join(' ')
   }
 
   getHead(headLength = 1) {
@@ -18,15 +18,20 @@ class MultipleWordNgram {
 
 class SingleWordNgram {
   constructor(word) {
-    this.word = word
+    this.word = word.toLowerCase()
+    this.overlap = parseInt(word.length/2) + 1
   }
 
-  getHead(headLength = 3) {
-    return this.word.slice(0, headLength)
+  getMergeString(){
+    return this.word.slice(this.overlap)
   }
 
-  getTail(tailLength = 3) {
-    return this.word.slice(-tailLength)
+  getHead() {
+    return this.word.slice(0, this.overlap)
+  }
+
+  getTail() {
+    return this.word.slice(-this.overlap)
   }
 }
 
@@ -40,13 +45,6 @@ class Ngram {
     this._setNgramKind()
   }
 
-  _setNgramKind() {
-    if (this.isMultipleWords) {
-      return (this.ngram = new MultipleWordNgram(this.text))
-    }
-    this.ngram = new SingleWordNgram(this.text)
-  }
-
   getHead(headLength) {
     return this.ngram.getHead(headLength)
   }
@@ -57,6 +55,13 @@ class Ngram {
 
   getMergeString(){
     return this.ngram.getMergeString()
+  }
+
+  _setNgramKind() {
+    if (this.isMultipleWords) {
+      return (this.ngram = new MultipleWordNgram(this.text))
+    }
+    this.ngram = new SingleWordNgram(this.text)
   }
 }
 

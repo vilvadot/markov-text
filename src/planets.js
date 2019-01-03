@@ -22,7 +22,7 @@ let ngrams = [];
 const options = {
   splitFn: splitIntoSyllabes,
   cleanFn: removeUnwantedBlocks,
-  order: 3,
+  order: 5,
 }
 
 
@@ -37,10 +37,9 @@ try {
     "utf-8"
   );
   ngrams = new NgramGenerator(trainingText, options).getNgrams();
-  console.log(ngrams)
   // fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-const generatedText = new MarkovChain(ngrams).generateSentence(100);
+const generatedText = new MarkovChain(ngrams).generate(5);
 
 console.log(generatedText)
