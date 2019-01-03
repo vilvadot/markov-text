@@ -7,7 +7,7 @@ const MarkovChain = require("./lib/MarkovChain");
 
 const trainingDirectory = "./training/input/";
 const outputDirectory = "./training/output/";
-const trainingFile = `${trainingDirectory}/planets.txt`;
+const trainingFile = `${trainingDirectory}/lotr.txt`;
 const trainingPath = path.resolve(__dirname, trainingFile)
 
 const fileName = trainingFile
@@ -23,7 +23,7 @@ let ngrams = [];
 const options = {
   splitFn: splitIntoSyllabes,
   cleanFn: removeUnwantedBlocks,
-  order: 5,
+  order: 4,
 }
 
 

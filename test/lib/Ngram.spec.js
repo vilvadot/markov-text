@@ -1,67 +1,79 @@
-const chai = require("chai")
-const expect = chai.expect
-const Ngram = require("../../src/lib/Ngram")
+const chai = require("chai");
+const expect = chai.expect;
+const Ngram = require("../../src/lib/Ngram");
 
 describe("Ngram", () => {
+  describe("Single word", () => {
+    it("returns default tail of half the length of the word", () => {
+      const text = "apollo";
+      const expectedTail = "ollo";
 
-  it("returns default tail", () => {
+      const ngram = new Ngram(text);
+      const tail = ngram.getTail();
 
-    const text = 'apollo'
-    const expectedTail = 'llo'
-
-    const ngram = new Ngram('apollo')
-    const tail = ngram.getTail()
-    
-    expect(tail).equal(expectedTail)
-
-  })
-
-  it("returns tail of multiple words", () => {
-
-    const text = 'apollo the dog'
-    const expectedTail = 'the dog'
-
-    const ngram = new Ngram(text)
-    const tail = ngram.getTail(2)
-    
-    expect(tail).equal(expectedTail)
-
-  })
+      expect(tail).equal(expectedTail);
+    });
 
     it("returns tail of desired length", () => {
+      const text = "apollo";
+      const expectedTail = "lo";
 
-      const text = 'apollo'
-      const expectedTail = 'lo'
+      const ngram = new Ngram(text);
+      const tail = ngram.getTail(2);
 
-      const ngram = new Ngram(text)
-      const tail = ngram.getTail(2)
-      
-      expect(tail).equal(expectedTail)
-
-    })
+      expect(tail).equal(expectedTail);
+    });
 
     it("returns head of desired length", () => {
+      const text = "apollo";
+      const expectedHead = "apo";
 
-      const text = 'apollo'
-      const expectedHead = 'apo'
+      const ngram = new Ngram(text);
+      const tail = ngram.getHead(3);
 
-      const ngram = new Ngram(text)
-      const tail = ngram.getHead(3)
-      
-      expect(tail).equal(expectedHead)
+      expect(tail).equal(expectedHead);
+    });
 
-    })
+    it("returns string to merge removing head", () => {
+      const text = "apollo";
+      const expectedMergeString = "lo";
 
-    it("returns head of multiple words if specified", () => {
+      const ngram = new Ngram(text);
+      const mergeString = ngram.getMergeString();
 
-      const text = 'apollo the dog'
-      const expectedHead = 'apollo the'
+      expect(mergeString).equal(expectedMergeString);
+    });
+  });
 
-      const ngram = new Ngram(text)
-      const tail = ngram.getHead(2)
-      
-      expect(tail).equal(expectedHead)
+  describe("Multiple words", () => {
+    it("returns head of multiple words", () => {
+      const text = "apollo the dog";
+      const expectedHead = "apollo the";
 
-    })
+      const ngram = new Ngram(text);
+      const tail = ngram.getHead(2);
 
-})
+      expect(tail).equal(expectedHead);
+    });
+
+    it("returns tail of multiple words", () => {
+      const text = "apollo the dog";
+      const expectedTail = "the dog";
+
+      const ngram = new Ngram(text);
+      const tail = ngram.getTail(2);
+
+      expect(tail).equal(expectedTail);
+    });
+
+    it("returns string to merge removing head", () => {
+      const text = "apollo the dog";
+      const expectedMergeString = " the dog";
+
+      const ngram = new Ngram(text);
+      const mergeString = ngram.getMergeString();
+
+      expect(mergeString).equal(expectedMergeString);
+    });
+  });
+});

@@ -1,7 +1,7 @@
 const chai = require("chai")
 const expect = chai.expect
 const NgramGenerator = require("../../src/lib/NgramGenerator")
-const {splitIntoWords, cleanWords} = require('../../src/lib/processors/words');
+const {splitIntoWords} = require('../../src/lib/processors/words');
 
 const sampleText = "Lorem ipsum dolor sit ammet"
 

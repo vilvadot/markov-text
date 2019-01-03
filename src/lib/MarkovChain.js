@@ -11,8 +11,9 @@ class MarkovChain {
     this.outputLength = 0;
   }
 
-  generate(desiredLength = 15) {
-    this._setOutputLength(desiredLength);
+  generate(desiredLength = 3) {
+    this._reset()
+    this._setOutputLength(this.outputLength || desiredLength);
     this._addFragments();
     return this._joinResult();
   }
@@ -24,7 +25,12 @@ class MarkovChain {
       const nextFragment = this._getNextFragment();
       if (!nextFragment) break;
       this.result.push(nextFragment);
-      this._resetList(i, i = this.outputLength -1);
+      this._recalcList(i);
+    }
+
+    if(this.result.length < this.outputLength/2){
+      this._reset()
+      this._addFragments()
     }
   }
 
@@ -41,7 +47,12 @@ class MarkovChain {
     return firstWord;
   }
 
-  _resetList(i = 0, isLastLoop) {
+  _reset(){
+    this.result = []
+    this.list = new WeightedList(this.ngrams);
+  }
+
+  _recalcList(i = 0, isLastLoop) {
     //TODO:FIXME: Tiene pinta de ser terriblemente ineficiente (aunque permite utilizar todo tipo de entidades como ngrama)
     const lastFragment = this.result.slice(-1)[0];
     const tail = lastFragment.getTail();
@@ -50,16 +61,14 @@ class MarkovChain {
     const filteredKeys = allNgramKeys.filter(ngram => {
       return ngram.getHead() === tail;
     });
-    
+
     const matchingNgrams = filteredKeys.map(ngram => ngram.text);
     const mapWithMatchingNgrams = pick(this.ngrams, matchingNgrams);
     this.list.setWeights(mapWithMatchingNgrams);
 
-    if(!isLastLoop){
-      log(red(`${i} - ${lastFragment.text}`));
-      log(blue(`${tail}:`));
-      log(grey(JSON.stringify(mapWithMatchingNgrams, 0, 2)));
-    }
+    log(red(`${i} - ${lastFragment.text}`));
+    log(blue(`${tail}:`));
+    log(grey(JSON.stringify(mapWithMatchingNgrams, 0, 2)));
   }
 
   _setOutputLength(desiredLength) {
@@ -68,7 +77,7 @@ class MarkovChain {
     if (Array.isArray(desiredLength)) {
       length = random(desiredLength[0], desiredLength[1]);
     }
-
+    log(`Output length:${length}`)
     this.outputLength = length;
   }
 
@@ -80,7 +89,7 @@ class MarkovChain {
   _addFirstFragment() {
     const firstNgram = this.list.getRandomItem();
     this.result.push(firstNgram);
-    this._resetList();
+    this._recalcList();
   }
 }
 

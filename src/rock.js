@@ -7,7 +7,7 @@ const MarkovChain = require("./lib/MarkovChain");
 
 const trainingDirectory = "./training/input/";
 const outputDirectory = "./training/output/";
-const trainingFile = `${trainingDirectory}/planets.txt`;
+const trainingFile = `${trainingDirectory}/rock_band_names.txt`;
 const trainingPath = path.resolve(__dirname, trainingFile)
 
 const fileName = trainingFile
@@ -37,14 +37,15 @@ try {
     trainingPath,
     "utf-8"
   );
-  ngramWeights = new NgramGenerator(trainingText, options).getNgrams();
+  ngrams = new NgramGenerator(trainingText, options).getNgrams();
+  fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-const generatedText = new MarkovChain(ngramWeights).generate([3, 6]);
-console.log(black.bgBlue(generatedText))
+const chain = new MarkovChain(ngrams)
 
-// for(let a of Array(10)){
-//   const generatedText = new MarkovChain(ngramWeights).generate(5);
-//   console.log(black.bgBlue(generatedText))
-//   console.log('-----------------------')
-// }
+for(let a of Array(10)){
+  const firstWord = chain.generate(3);
+  const secondWord = chain.generate(4);
+  console.log(black.bgBlue(`${firstWord} ${secondWord}`))
+  console.log('-----------------------')
+}

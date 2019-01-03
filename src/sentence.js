@@ -7,7 +7,7 @@ const MarkovChain = require("./lib/MarkovChain");
 
 const trainingDirectory = "./training/input/";
 const outputDirectory = "./training/output/";
-const trainingFile = `${trainingDirectory}/methamorphosis_short.txt`;
+const trainingFile = `${trainingDirectory}/methamorphosis.txt`;
 const trainingPath = path.resolve(__dirname, trainingFile)
 
 const fileName = trainingFile
@@ -23,7 +23,7 @@ let ngrams = [];
 const options = {
   splitFn: splitIntoWords,
   cleanFn: removeUnwantedBlocks,
-  order: 5,
+  order: 3,
 }
 
 
@@ -37,12 +37,15 @@ try {
     trainingPath,
     "utf-8"
   );
-  ngramWeights = new NgramGenerator(trainingText, options).getNgrams();
-  // fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
+  ngrams = new NgramGenerator(trainingText, options).getNgrams();
+  fs.writeFileSync(ngramsPath, JSON.stringify(ngrams));
 }
 
-for(let a of Array(10)){
-  const generatedText = new MarkovChain(ngramWeights).generate(5);
-  console.log(black.bgBlue(generatedText))
-  console.log('-----------------------')
-}
+const generatedText = new MarkovChain(ngrams).generate(17);
+console.log(black.bgBlue(generatedText))
+
+// for(let a of Array(10)){
+//   const generatedText = new MarkovChain(ngramWeights).generate(5);
+//   console.log(black.bgBlue(generatedText))
+//   console.log('-----------------------')
+// }

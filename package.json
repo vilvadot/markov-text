@@ -8,7 +8,9 @@
     "start": "node src/index",
     "generate:sentence": "DEBUG=true nodemon src/sentence",
     "generate:planets": "DEBUG=true nodemon src/planets",
-    "test": "mocha --recursive ./test",
+    "generate:rock": "nodemon src/rock",
+    "generate:lotr": "nodemon src/lotr",
+    "test": "nyc --reporter=text mocha --recursive ./test",
     "test:watch": "mocha --recursive ./test --watch"
   },
   "keywords": [],
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0"
   }
 }

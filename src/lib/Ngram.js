@@ -26,12 +26,12 @@ class SingleWordNgram {
     return this.word.slice(this.overlap)
   }
 
-  getHead() {
-    return this.word.slice(0, this.overlap)
+  getHead(headLength) {
+    return this.word.slice(0, headLength || this.overlap)
   }
 
-  getTail() {
-    return this.word.slice(-this.overlap)
+  getTail(tailLength) {
+    return this.word.slice(-(tailLength||this.overlap))
   }
 }
 
