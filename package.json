@@ -8,7 +8,7 @@
     "start": "node src/index",
     "test": "nyc --reporter=text mocha --recursive ./test",
     "test:watch": "mocha --recursive ./test --watch",
-    "example:metamorphosis": "node ./examples/metamorphosis"
+    "example:metamorphosis": "DEBUG=true nodemon ./examples/metamorphosis"
   },
   "keywords": [],
   "author": "vilvadot",
