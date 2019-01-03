@@ -1,4 +1,4 @@
-const log = (content) => {
+const log = content => {
   if(process.env.DEBUG){
     console.log(content)
   }

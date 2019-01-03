@@ -61,8 +61,7 @@ class NgramGenerator {
     // TODO: Where to put logging? in this method or in _generateWeightedNgrams?
     log(yellow("Generating nGrams..."));
     const ngrams = this.splitFn(this.text, this.order);
-
-    log(green("Ngrams:"), ngrams.length);
+    log(green(`Ngrams:${ngrams.length}`));
     return this._removeUnwantedNgrams(ngrams);
   }
 

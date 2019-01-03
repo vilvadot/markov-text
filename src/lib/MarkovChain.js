@@ -1,5 +1,5 @@
 const { random, pick } = require("lodash");
-const {red} = require("chalk");
+const {red, grey} = require("chalk");
 const WeightedList = require("./WeightedList");
 const log = require("./logger");
 
@@ -11,7 +11,7 @@ class MarkovChain {
     this.outputLength = 0;
   }
 
-  generateSentence(desiredLength = 15) {
+  generate(desiredLength = 15) {
     this._setOutputLength(desiredLength);
     this._addFragments()
     return this._joinResult();
@@ -21,10 +21,11 @@ class MarkovChain {
     this._addFirstFragment();
 
     for (let i = this.result.length; i < this.outputLength; i++) {
+      
       const nextFragment = this._getNextFragment();
       if (!nextFragment) break;
       this.result.push(nextFragment)
-      this._resetList()
+      this._resetList(i)
     }
   }
 
@@ -33,9 +34,11 @@ class MarkovChain {
     return result
   }
 
-  _resetList(){
+  _resetList(i = 0){
     //TODO:FIXME: Tiene pinta de ser terriblemente ineficiente (aunque permite utilizar todo tipo de entidades como ngrama)
-    const tail = this.result.slice(-1)[0].getTail()
+    const lastFragment = this.result.slice(-1)[0]
+    log(red(`${i} - ${lastFragment.text}`))
+    const tail = lastFragment.getTail()
     const allNgramsList = new WeightedList(this.ngrams)
     const allNgramKeys = Object.values(allNgramsList.getAllItems())
     const filteredKeys = allNgramKeys.filter((ngram) => {
@@ -44,6 +47,7 @@ class MarkovChain {
 
     const matchingNgrams = filteredKeys.map(ngram => ngram.text)
     const mapWithMatchingNgrams = pick(this.ngrams, matchingNgrams);
+    log(grey(JSON.stringify(mapWithMatchingNgrams, 0, 2)))
     this.list.setWeights(mapWithMatchingNgrams)
   }
 
@@ -58,7 +62,6 @@ class MarkovChain {
   }
 
   _getNextFragment() {
-    log(red(`:${this.result.slice(-1)[0].text}:`))
     const nextFragment = this.list.getItem()
     return nextFragment
   }
