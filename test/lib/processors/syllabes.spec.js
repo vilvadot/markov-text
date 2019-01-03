@@ -2,7 +2,7 @@ const chai = require("chai");
 const expect = chai.expect;
 const {
   splitIntoSyllabes,
-  removeUnwantedBlocks
+  removeUnwantedSyllabes
 } = require("../../../src/lib/processors/syllabes");
 
 const sampleText = "Lorem";
@@ -26,7 +26,7 @@ describe("Processor: Syllabes", () => {
     const text = 'Lore43m ipsum dolor -'
 
     const syllabes = splitIntoSyllabes(text, 3);
-    const cleanSyllabes = removeUnwantedBlocks(syllabes)
+    const cleanSyllabes = removeUnwantedSyllabes(syllabes)
     
     const expectedSyllabes = [ 'Lor', 'ore', 'ips', 'psu', 'sum', 'dol', 'olo', 'lor' ]
 

@@ -6,15 +6,12 @@
   "scripts": {
     "dev": "nodemon -w *.js src/index",
     "start": "node src/index",
-    "generate:sentence": "DEBUG=true nodemon src/sentence",
-    "generate:planets": "DEBUG=true nodemon src/planets",
-    "generate:rock": "nodemon src/rock",
-    "generate:lotr": "nodemon src/lotr",
     "test": "nyc --reporter=text mocha --recursive ./test",
-    "test:watch": "mocha --recursive ./test --watch"
+    "test:watch": "mocha --recursive ./test --watch",
+    "example:metamorphosis": "node ./examples/metamorphosis"
   },
   "keywords": [],
-  "author": "",
+  "author": "vilvadot",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.1",

@@ -1,3 +1,0 @@
-- [ ] Add tests
-- [ ] Markov with words
-- [ ] Add Typescript

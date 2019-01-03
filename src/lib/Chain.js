@@ -3,7 +3,7 @@ const { red, grey, blue } = require("chalk");
 const WeightedList = require("./WeightedList");
 const log = require("./logger");
 
-class MarkovChain {
+class Chain {
   constructor(ngramWeights) {
     this.ngrams = ngramWeights;
     this.list = new WeightedList(ngramWeights);
@@ -93,4 +93,4 @@ class MarkovChain {
   }
 }
 
-module.exports = MarkovChain;
+module.exports = Chain;

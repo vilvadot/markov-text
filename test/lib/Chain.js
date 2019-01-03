@@ -1,6 +1,6 @@
 const chai = require("chai")
 const expect = chai.expect
-const MarkovChain = require("../../src/lib/MarkovChain")
+const Chain = require("../../src/lib/Chain")
 const NGramGenerator = require("../../src/lib/NGramGenerator")
 const {splitIntoWords, removeUnwantedBlocks} = require('../../src/lib/processors/words');
 
@@ -14,10 +14,10 @@ const options = {
 
 const ngramWeights = new NGramGenerator(trainingText, options).getNgrams();
 
-describe("MarkovChain", () => {
+describe("Chain", () => {
 
   it("desired output length can be an integer", () => {
-    const markov = new MarkovChain(ngramWeights)
+    const markov = new Chain(ngramWeights)
 
     const five = 5
     markov._setOutputLength(five)
@@ -27,7 +27,7 @@ describe("MarkovChain", () => {
   })
 
   it("desired output length can be an array", () => {
-    const markov = new MarkovChain(ngramWeights)
+    const markov = new Chain(ngramWeights)
     
     const zero = 0
     const five = 5
@@ -39,7 +39,7 @@ describe("MarkovChain", () => {
   })
 
   it("sets a random start of string", () => {
-    const markov = new MarkovChain(ngramWeights)
+    const markov = new Chain(ngramWeights)
     
     markov._addFirstFragment()
     const result = markov.result
@@ -48,7 +48,7 @@ describe("MarkovChain", () => {
   })
 
   it("can be reset", () => {
-    const markov = new MarkovChain(ngramWeights)
+    const markov = new Chain(ngramWeights)
     
     markov._addFirstFragment()
 
@@ -60,7 +60,7 @@ describe("MarkovChain", () => {
   })
 
   it("adds another fragment", () => {
-    const markov = new MarkovChain(ngramWeights)
+    const markov = new Chain(ngramWeights)
     
     markov._addFirstFragment()
 
@@ -72,7 +72,7 @@ describe("MarkovChain", () => {
   })
 
   it("returns result as a string", () => {
-    const markov = new MarkovChain(ngramWeights)
+    const markov = new Chain(ngramWeights)
     
     markov._addFirstFragment()
 
@@ -82,7 +82,7 @@ describe("MarkovChain", () => {
   })
 
   it("generates a string with the desired length", () => {
-    const markov = new MarkovChain(ngramWeights)
+    const markov = new Chain(ngramWeights)
     const desiredLength = 3
 
     const result = markov.generate(desiredLength)

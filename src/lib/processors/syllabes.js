@@ -12,7 +12,7 @@ exports.splitIntoSyllabes = (text, numSyllabes = 2) => {
   return syllabes;
 };
 
-exports.removeUnwantedBlocks = syllabes => {
+exports.removeUnwantedSyllabes = syllabes => {
   const onlyLetters = syllabes.filter(syllabe => {
     const regExpOnlyLetters = /^[a-zA-Z]+$/g;
     return regExpOnlyLetters.test(syllabe);
