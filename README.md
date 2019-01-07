@@ -51,6 +51,8 @@ Provided are two examples you can run using:
 
 #### Metamorphosis
 
+![metamorphosis-text](https://user-images.githubusercontent.com/8507571/50779400-819b0b80-12a0-11e9-960d-9900ccacf6b4.gif)
+
   Uses a excerpt of [Franz Kafka's Metamorphosis](http://www.gutenberg.org/ebooks/5200)  to generate sentences of the desired length.
 
     npm run example:metamorphosis
@@ -59,6 +61,8 @@ Provided are two examples you can run using:
 ---
 
 #### Lotr
+
+![lotr-text](https://user-images.githubusercontent.com/8507571/50779159-ed30a900-129f-11e9-93b9-f06c035e5f02.gif)
 
   Uses all the names from [characters of LOTR](https://en.wikipedia.org/wiki/List_of_Middle-earth_characters) to generate a new one
 
