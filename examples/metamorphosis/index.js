@@ -18,6 +18,9 @@ const options = {
 const markov = new Markov(options);
 markov.seed(trainingText);
 
-const generatedText = markov.generate(20);
-
-console.log(black.bgBlue(generatedText));
+setInterval(() => {
+  const generatedText = markov.generate(20);
+  
+  console.log(black.bgBlue(generatedText));
+  console.log('----------')
+}, 300)
