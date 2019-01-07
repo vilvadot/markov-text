@@ -11,7 +11,7 @@ A simple procedural text generator implementing [Markov chains](http://setosa.io
 
 
 ## Usage
-
+```js
     var Markov = require('markov-text');
 
     const trainingText = 'Lorem ipsum dolor sit ammet'
@@ -23,6 +23,7 @@ A simple procedural text generator implementing [Markov chains](http://setosa.io
     loremGenerator.seed(trainingText) // Seed chain with "training" text
 
     const generatedText = loremGenerator.generate(5) // Set length of the generated output.
+```
 
 | Method    | Arguments             | Returns        | Description                                                                                                                                                                   |
 |-----------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
