@@ -9,7 +9,7 @@ class NgramItem extends Ngram{
 }
 
 class WeightedNgramList {
-  // weightMap[{value: weight}]
+  // TODO: Add Typing? weightMap[{value: weight}] 
   constructor(weightMap = {}) {
     this.setWeights(weightMap);
     this.count = Object.keys(weightMap).length;
@@ -50,7 +50,6 @@ class WeightedNgramList {
   }
 
   getAllItems(){
-    // return Object.values(this.weightMap)
     return this.weightMap
   }
 

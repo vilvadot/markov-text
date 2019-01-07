@@ -40,8 +40,6 @@ class Ngram {
     this.text = text
     this.words = text.split(" ")
     this.isMultipleWords = this.words.length > 1
-    // TODO: Siempre todas las props inicializadas en el constructor
-    // this.ngram = ??
     this._setNgramKind()
   }
 

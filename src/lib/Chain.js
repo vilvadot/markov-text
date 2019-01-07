@@ -54,7 +54,7 @@ class Chain {
   }
 
   _recalcList(i = 0) {
-    //TODO:FIXME: Tiene pinta de ser terriblemente ineficiente (aunque permite utilizar todo tipo de entidades como ngrama)
+    //TODO:FIXME: This smells terribly inneficient. 
     const lastFragment = this.result.slice(-1)[0];
     const tail = lastFragment.getTail();
     const allNgramsList = new WeightedList(this.ngrams);

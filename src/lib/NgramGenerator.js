@@ -7,16 +7,13 @@ class NgramGenerator {
   constructor(text, options) {
     this.text = text
     this._validateConfig(options)
-    // TODO: Error handling en el constructor?
     this.order = options.order || 3
     this.weightedNgrams = {}
     this.splitFn = options.splitFn
     this.cleanFn = options.cleanFn || defaultCleaningFn
-    // TODO: Chain methods in constructor vs calling single method aggregating all of them?
   }
 
   getNgrams() {
-    // Better to do this in the constructor??
     const ngramsLength = Object.keys(this.weightedNgrams).length
     if(!ngramsLength){
       this._generateWeightedNgrams()
@@ -58,7 +55,6 @@ class NgramGenerator {
   }
 
   _generateNgrams() {
-    // TODO: Where to put logging? in this method or in _generateWeightedNgrams?
     log(yellow("Generating nGrams..."))
     const ngrams = this.splitFn(this.text, this.order)
     log(green(`Ngrams:${ngrams.length}`))
