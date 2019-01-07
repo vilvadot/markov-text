@@ -1,4 +1,4 @@
-Markov Text
+Markov Text [![Build Status](https://travis-ci.org/vilvadot/markov-text.svg?branch=master)](https://travis-ci.org/vilvadot/markov-text)
 =========
 
 A simple procedural text generator implementing [Markov chains](http://setosa.io/ev/markov-chains/)
