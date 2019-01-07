@@ -1,6 +1,6 @@
 {
   "name": "markov-text",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A simple procedural text generator implementing Markov chains",
   "main": "src/index.js",
   "scripts": {
@@ -9,7 +9,11 @@
     "example:metamorphosis": "node ./examples/metamorphosis",
     "example:lotr": "node ./examples/lotr"
   },
-  "keywords": ["markov", "markov chain", "procedural text"],
+  "keywords": [
+    "markov",
+    "markov chain",
+    "procedural text"
+  ],
   "author": "Vilva <hi@vilva.io>",
   "license": "WTFPL",
   "repository": {
