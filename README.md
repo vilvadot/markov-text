@@ -74,3 +74,7 @@ Provided are two examples you can run using:
 ## Tests
 
     npm test
+    
+## Credit
+
+This is mainly my best shot at implementating in Javascript what is explained in this great series by [starbeamrainbowlabs](https://starbeamrainbowlabs.com/blog/article.php?article=posts/236-Markov-Chain-Part-1-N-Grams.html) 
